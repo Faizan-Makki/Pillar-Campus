@@ -28,6 +28,13 @@
         <button class="auth-submit" type="submit">Sign in securely</button>
         <button class="auth-link" type="button" id="resetPassword">Forgot password?</button>
       </form>
+      <form id="recoveryForm" class="login-form" hidden>
+        <h1>Set a new password</h1><p>Choose a password for your Pillar Campus account.</p>
+        <label class="auth-field">New password<input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+        <label class="auth-field">Confirm new password<input type="password" name="confirmPassword" autocomplete="new-password" minlength="8" required></label>
+        <button class="auth-submit" type="submit">Save new password</button>
+        <button class="auth-link" type="button" id="backToLogin">Back to sign in</button>
+      </form>
       <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
       <div class="auth-footer">Private campus access <span>·</span> English <span>·</span> हिंदी <span>·</span> اردو</div>
     </section>
