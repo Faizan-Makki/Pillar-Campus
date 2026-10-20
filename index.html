@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f4">
+  <meta name="description" content="A simple school, coaching and hostel management dashboard designed for everyday phone use.">
+  <title>Pillar Campus — School & Hostel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="features.css">
+  <link rel="stylesheet" href="live.css">
+</head>
+<body>
+  <main class="auth-screen" id="authScreen">
+    <section class="auth-card">
+      <div class="auth-brand"><span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 4 13v14l16 9 16-9V13L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M11 25c3-1 6-3 9-7 3 4 6 6 9 7M20 18v11M12 20l8 4 8-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Pillar Campus</strong><small>School · Hostel · Coaching · Madarsa</small></div></div>
+      <div id="setupNotice" class="auth-notice" hidden>
+        <span class="auth-notice-icon">⌂</span>
+        <div><h1>Connect your campus</h1><p>This app is ready for a private database. A campus administrator must finish the setup before staff can sign in.</p><ol><li>Create a Supabase project.</li><li>Run <b>schema.sql</b> in its SQL Editor.</li><li>Add the project URL and publishable key to <b>supabase-config.js</b>.</li><li>Create the director account and campus using the setup guide.</li></ol><p class="auth-footnote">The public website has no real student records. Do not add real student information until setup is complete.</p><a class="setup-help" href="SETUP.md">Open the full setup guide →</a></div>
+      </div>
+      <form id="loginForm" class="login-form" hidden>
+        <h1>Welcome back</h1><p>Sign in to see your campus register.</p>
+        <label class="auth-field">Email address<input type="email" name="email" autocomplete="username" required></label>
+        <label class="auth-field">Password<input type="password" name="password" autocomplete="current-password" required></label>
+        <button class="auth-submit" type="submit">Sign in securely</button>
+        <button class="auth-link" type="button" id="resetPassword">Forgot password?</button>
+      </form>
+      <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+      <div class="auth-footer">Private campus access <span>·</span> English <span>·</span> हिंदी <span>·</span> اردو</div>
+    </section>
+  </main>
+  <div class="app-shell" id="appShell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#home" aria-label="Pillar Campus home">
+        <span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 4 13v14l16 9 16-9V13L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M11 25c3-1 6-3 9-7 3 4 6 6 9 7M20 18v11M12 20l8 4 8-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span><strong>Pillar Campus</strong><small>School & Hostel</small></span>
+      </a>
+      <button class="campus-select" type="button" aria-label="Current campus"><span class="campus-dot"></span><span><b id="campusName">Pillar Campus</b><small id="campusLocation">Campus register</small></span><span class="chevron">⌄</span></button>
+      <div class="nav-label">WORKSPACE <span>काम</span></div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span><span class="nav-copy"><b>Overview</b><small>आज का हाल</small></span></button>
+        <button class="nav-item" data-page="attendance"><span class="nav-icon">☑</span><span class="nav-copy"><b>Attendance</b><small>हाज़िरी</small></span><span class="nav-badge">2</span></button>
+        <button class="nav-item" data-page="hostel"><span class="nav-icon">⌂</span><span class="nav-copy"><b>Hostel & meals</b><small>छात्रावास</small></span></button>
+        <button class="nav-item" data-page="students"><span class="nav-icon">♧</span><span class="nav-copy"><b>Students</b><small>बच्चे</small></span></button>
+        <button class="nav-item" data-page="papers"><span class="nav-icon">▤</span><span class="nav-copy"><b>Question papers</b><small>प्रश्न पत्र</small></span></button>
+        <button class="nav-item" data-page="health"><span class="nav-icon">＋</span><span class="nav-copy"><b>Health</b><small>सेहत</small></span><span class="nav-alert"></span></button>
+        <button class="nav-item" data-page="kitchen"><span class="nav-icon">♨</span><span class="nav-copy"><b>Kitchen stock</b><small>रसोई का सामान</small></span><span class="nav-badge warning">3</span></button>
+        <div class="nav-separator"></div>
+        <button class="nav-item" data-page="reports"><span class="nav-icon">▥</span><span class="nav-copy"><b>Reports</b><small>रिपोर्ट</small></span></button>
+        <button class="nav-item" data-page="staff"><span class="nav-icon">♙</span><span class="nav-copy"><b>Staff</b><small>कर्मचारी</small></span></button>
+        <button class="nav-item" data-page="fees"><span class="nav-icon">₹</span><span class="nav-copy"><b>Fees & dues</b><small>फीस</small></span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sync-card"><span class="sync-icon">↻</span><div><b id="syncStatus">Private register</b><small id="syncDetails">Changes are saved securely</small></div><span class="sync-check">✓</span></div>
+        <button class="profile-button" type="button" id="sideSignOut"><span class="avatar avatar-admin" id="sideAvatar">PC</span><span><b id="sideUserName">Campus user</b><small id="sideRole">Staff</small></span><span class="chevron">⇥</span></button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
+        <div class="breadcrumbs"><span>Pillar Campus</span><i>/</i><b id="crumbCurrent">Overview</b></div>
+        <div class="top-actions">
+          <span class="today-date"><span class="date-dot"></span><span id="dateLabel">Tuesday, 20 October 2026</span></span>
+          <button class="language-toggle" id="languageToggle" aria-label="Switch language"><span class="lang-active">EN</span><span>हि</span><span>اردو</span></button>
+          <button class="icon-button notification-button" id="notificationButton" aria-label="Notifications"><span>♧</span><i></i></button>
+          <span class="top-divider"></span>
+          <button class="top-profile" type="button" id="signOutButton" aria-label="Sign out"><span class="avatar avatar-admin" id="userAvatar">PC</span><span id="userName">Campus user</span><span class="chevron">⇥</span></button>
+        </div>
+      </header>
+      <div class="notification-popover" id="notificationPanel" hidden></div>
+      <div class="content-area" id="contentArea"></div>
+      <footer class="footer-note"><span class="footer-leaf">✳</span> Made for the people who care for every child <span class="footer-hindi">· ہر بچے کی دیکھ بھال کے لیے</span><span class="footer-right" id="syncLabel">Private campus register</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-icon">✓</span><span id="toastText">Saved successfully</span></div>
+  <div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div class="modal-icon" id="modalIcon">＋</div><h2 id="modalTitle">Add a record</h2><p id="modalDescription">Fill in the details below.</p><div id="modalFields"></div><div class="modal-actions"><button class="button button-quiet" id="modalCancel">Cancel</button><button class="button button-primary" id="modalSave">Save record</button></div></section></div>
+  <script src="supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+  <script src="backend.js"></script>
+  <script src="features.js"></script>
+</body>
+</html>
