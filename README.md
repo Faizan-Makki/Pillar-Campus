@@ -17,7 +17,8 @@ In the repository, open **Settings → Pages** and set the publishing source to 
 - This is a small-team web app intended for an initial 5–10 staff pilot. Test staff roles and data access with fictional records before using live student information.
 - Supabase Free currently includes 500 MB per project but can pause projects after one week of inactivity and does not include automatic backups. Set up a backup routine and review current plan limits before relying on it for long-term records.
 - The app does not send SMS or WhatsApp messages. Overdue leave notifications show the recorded guardian/staff phone as a tap-to-call link.
-- Authentication uses email and password. The director invites accounts in Supabase; there is no public sign-up link.
+- Authentication uses email and password. Directors invite staff from **Staff**; each invitation reserves a seat and is sent through Supabase Auth. There is no public sign-up link. Apply the subscription migration and deploy the secure `campus-admin` Edge Function as described in [SETUP.md](SETUP.md) before inviting staff through the app.
+- Starter costs ₹499/month and includes two staff seats plus one Director/Admin account. Additional staff seats cost ₹99 each per month. Seat requests require founder approval. Billing is manually managed; the app does not collect or charge payments.
 - Use HTTPS. Keep the publishable key in `supabase-config.js`; do not place database passwords, API secret keys, or service-role keys in any browser file.
 
 ## Local preview
