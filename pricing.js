@@ -8,7 +8,7 @@
   const INCLUDED_STAFF_SEATS = 2;
   const ADDITIONAL_SEAT_PRICE_INR = 99;
   const MAX_ADDITIONAL_SEATS = 1000;
-  const PRINCIPAL_ROLES = new Set(['director', 'admin']);
+  const PRINCIPAL_ROLES = new Set(['admin']);
 
   function validSeatCount(value, label = 'Additional seats') {
     const count = Number(value);
@@ -31,8 +31,8 @@
     return `₹${amount.toLocaleString('en-IN')}${suffix}`;
   }
 
-  // One active Admin/Director is included; any additional privileged account
-  // consumes a staff seat. This keeps a second admin from bypassing the cap.
+  // One active institute Admin is included. Every other active account consumes
+  // a staff seat; this also prevents a second Admin from bypassing the cap.
   function activeStaffSeats(roles) {
     const roleList = Array.isArray(roles) ? roles : [];
     const principalCount = roleList.filter(role => PRINCIPAL_ROLES.has(String(role).toLowerCase())).length;

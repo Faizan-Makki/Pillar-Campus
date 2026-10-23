@@ -4,6 +4,8 @@
 create extension if not exists pgcrypto;
 
 do $$ begin
+  -- Keep director only as a legacy enum value so existing deployments can
+  -- migrate safely; active memberships must use admin after migration.
   create type public.campus_role as enum ('director','admin','teacher','warden','health_worker','kitchen','bursar');
 exception when duplicate_object then null; end $$;
 
@@ -23,7 +25,8 @@ create table if not exists public.campus_members (
   role public.campus_role not null default 'teacher',
   active boolean not null default true,
   created_at timestamptz not null default now(),
-  unique (campus_id, id)
+  unique (campus_id, id),
+  constraint campus_members_role_no_director_check check (role <> 'director')
 );
 
 create or replace function public.my_campus_id()
@@ -167,7 +170,7 @@ create or replace function public.adjust_inventory_stock(
 returns void language plpgsql security definer set search_path = public
 as $$
 begin
-  if auth.uid() is null or not public.has_campus_role(array['director','admin','kitchen']::public.campus_role[]) then
+  if auth.uid() is null or not public.has_campus_role(array['admin','kitchen']::public.campus_role[]) then
     raise exception 'Not permitted to change kitchen stock' using errcode = '42501';
   end if;
   update public.inventory_items
@@ -209,59 +212,59 @@ create policy members_read_campus on public.campus_members for select to authent
 drop policy if exists students_read_campus on public.students;
 create policy students_read_campus on public.students for select to authenticated using (campus_id = public.my_campus_id());
 drop policy if exists students_add_staff on public.students;
-create policy students_add_staff on public.students for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','teacher']::public.campus_role[]));
+create policy students_add_staff on public.students for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','teacher']::public.campus_role[]));
 drop policy if exists students_edit_staff on public.students;
-create policy students_edit_staff on public.students for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','teacher']::public.campus_role[])) with check (campus_id = public.my_campus_id());
+create policy students_edit_staff on public.students for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','teacher']::public.campus_role[])) with check (campus_id = public.my_campus_id());
 drop policy if exists students_remove_admin on public.students;
-create policy students_remove_admin on public.students for delete to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin']::public.campus_role[]));
+create policy students_remove_admin on public.students for delete to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin']::public.campus_role[]));
 
 drop policy if exists attendance_read_campus on public.attendance;
 create policy attendance_read_campus on public.attendance for select to authenticated using (campus_id = public.my_campus_id());
 drop policy if exists attendance_add_staff on public.attendance;
-create policy attendance_add_staff on public.attendance for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','teacher','warden']::public.campus_role[]));
+create policy attendance_add_staff on public.attendance for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','teacher','warden']::public.campus_role[]));
 drop policy if exists attendance_edit_staff on public.attendance;
-create policy attendance_edit_staff on public.attendance for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','teacher','warden']::public.campus_role[])) with check (campus_id = public.my_campus_id());
+create policy attendance_edit_staff on public.attendance for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','teacher','warden']::public.campus_role[])) with check (campus_id = public.my_campus_id());
 
 drop policy if exists leave_read_campus on public.leave_records;
 create policy leave_read_campus on public.leave_records for select to authenticated using (campus_id = public.my_campus_id());
 drop policy if exists leave_add_warden on public.leave_records;
-create policy leave_add_warden on public.leave_records for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','warden']::public.campus_role[]));
+create policy leave_add_warden on public.leave_records for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','warden']::public.campus_role[]));
 drop policy if exists leave_edit_warden on public.leave_records;
-create policy leave_edit_warden on public.leave_records for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','warden']::public.campus_role[])) with check (campus_id = public.my_campus_id());
+create policy leave_edit_warden on public.leave_records for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','warden']::public.campus_role[])) with check (campus_id = public.my_campus_id());
 
 drop policy if exists health_read_authorised on public.health_records;
-create policy health_read_authorised on public.health_records for select to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','health_worker']::public.campus_role[]));
+create policy health_read_authorised on public.health_records for select to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','health_worker']::public.campus_role[]));
 drop policy if exists health_add_authorised on public.health_records;
-create policy health_add_authorised on public.health_records for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','health_worker']::public.campus_role[]));
+create policy health_add_authorised on public.health_records for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','health_worker']::public.campus_role[]));
 drop policy if exists health_edit_authorised on public.health_records;
-create policy health_edit_authorised on public.health_records for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','health_worker']::public.campus_role[])) with check (campus_id = public.my_campus_id());
+create policy health_edit_authorised on public.health_records for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','health_worker']::public.campus_role[])) with check (campus_id = public.my_campus_id());
 
 drop policy if exists inventory_read_campus on public.inventory_items;
 create policy inventory_read_campus on public.inventory_items for select to authenticated using (campus_id = public.my_campus_id());
 drop policy if exists inventory_add_kitchen on public.inventory_items;
-create policy inventory_add_kitchen on public.inventory_items for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','kitchen']::public.campus_role[]));
+create policy inventory_add_kitchen on public.inventory_items for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','kitchen']::public.campus_role[]));
 drop policy if exists inventory_edit_kitchen on public.inventory_items;
-create policy inventory_edit_kitchen on public.inventory_items for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','kitchen']::public.campus_role[])) with check (campus_id = public.my_campus_id());
+create policy inventory_edit_kitchen on public.inventory_items for update to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','kitchen']::public.campus_role[])) with check (campus_id = public.my_campus_id());
 
 drop policy if exists stock_read_campus on public.stock_transactions;
 create policy stock_read_campus on public.stock_transactions for select to authenticated using (campus_id = public.my_campus_id());
 drop policy if exists stock_add_kitchen on public.stock_transactions;
-create policy stock_add_kitchen on public.stock_transactions for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','kitchen']::public.campus_role[]));
+create policy stock_add_kitchen on public.stock_transactions for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','kitchen']::public.campus_role[]));
 
 drop policy if exists meals_read_campus on public.meal_plans;
 create policy meals_read_campus on public.meal_plans for select to authenticated using (campus_id = public.my_campus_id());
 drop policy if exists meals_manage_kitchen on public.meal_plans;
-create policy meals_manage_kitchen on public.meal_plans for all to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','kitchen']::public.campus_role[])) with check (campus_id = public.my_campus_id());
+create policy meals_manage_kitchen on public.meal_plans for all to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','kitchen']::public.campus_role[])) with check (campus_id = public.my_campus_id());
 
 drop policy if exists papers_read_campus on public.exam_papers;
 create policy papers_read_campus on public.exam_papers for select to authenticated using (campus_id = public.my_campus_id());
 drop policy if exists papers_manage_teacher on public.exam_papers;
-create policy papers_manage_teacher on public.exam_papers for all to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','teacher']::public.campus_role[])) with check (campus_id = public.my_campus_id());
+create policy papers_manage_teacher on public.exam_papers for all to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','teacher']::public.campus_role[])) with check (campus_id = public.my_campus_id());
 
 drop policy if exists fees_read_authorised on public.fee_payments;
-create policy fees_read_authorised on public.fee_payments for select to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','bursar']::public.campus_role[]));
+create policy fees_read_authorised on public.fee_payments for select to authenticated using (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','bursar']::public.campus_role[]));
 drop policy if exists fees_add_authorised on public.fee_payments;
-create policy fees_add_authorised on public.fee_payments for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['director','admin','bursar']::public.campus_role[]));
+create policy fees_add_authorised on public.fee_payments for insert to authenticated with check (campus_id = public.my_campus_id() and public.has_campus_role(array['admin','bursar']::public.campus_role[]));
 
 grant usage on schema public to authenticated;
 grant select on public.campuses, public.campus_members to authenticated;

@@ -1,7 +1,7 @@
 /* Shared UI scaffold. Campus records are loaded from Supabase after sign-in. */
 let students=[],inventory=[],staffDirectory=[],leaveRecords=[],newRecords=[];
 let currentPage='home',attendanceShift='Morning',attendanceFilter='All students',toastTimer,query='',currentLanguage='en',hindiMode=false;
-let paperData={institution:'Pillar Campus',exam:'',className:'',subject:'',duration:'',date:''},paperQuestions=[];
+let paperData={institution:'',exam:'',className:'',subject:'',duration:'',date:''},paperQuestions=[];
 const pages={home:['Overview','Today at a glance'],attendance:['Attendance','Paper-order digital register'],hostel:['Hostel & meals','Stay-in register and meal planning'],students:['Students','All enrolled students'],papers:['Question papers','Simple question entry · automatic A4 layout'],health:['Student health','Student health records'],kitchen:['Kitchen stock','Groceries, usage and re-ordering'],reports:['Reports & insights','Clear summaries for the whole campus'],staff:['Our staff','People who care for our students'],fees:['Fees & family support','Payments and family follow-up']};
 const en={home:'Overview',attendance:'Attendance',hostel:'Hostel & meals',students:'Students',papers:'Question papers',health:'Health',kitchen:'Kitchen stock',reports:'Reports',staff:'Staff',fees:'Fees & dues'};
 const hi={home:'आज का हाल',attendance:'हाज़िरी',hostel:'छात्रावास और भोजन',students:'बच्चे',papers:'प्रश्न पत्र',health:'सेहत',kitchen:'रसोई का सामान',reports:'रिपोर्ट',staff:'कर्मचारी',fees:'फीस'};

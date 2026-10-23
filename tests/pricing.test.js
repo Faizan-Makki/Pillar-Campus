@@ -14,11 +14,11 @@ test('INR formatting uses whole rupees and Indian digit grouping', () => {
   assert.equal(pricing.formatInr(1291), '₹1,291/month');
 });
 
-test('one Admin/Director account is excluded and extra staff accounts consume seats', () => {
-  assert.equal(pricing.activeStaffSeats(['director', 'teacher', 'warden']), 2);
+test('one Admin account is excluded and extra staff accounts consume seats', () => {
+  assert.equal(pricing.activeStaffSeats(['admin', 'teacher', 'warden']), 2);
   assert.equal(pricing.activeStaffSeats(['admin', 'teacher', 'kitchen']), 2);
-  assert.equal(pricing.activeStaffSeats(['director', 'admin', 'teacher']), 2);
-  assert.equal(pricing.activeStaffSeats(['director']), 0);
+  assert.equal(pricing.activeStaffSeats(['admin', 'admin', 'teacher']), 2);
+  assert.equal(pricing.activeStaffSeats(['admin']), 0);
 });
 
 test('only pending invitations with a future expiry reserve seats', () => {
@@ -32,10 +32,10 @@ test('only pending invitations with a future expiry reserve seats', () => {
 
 test('seat capacity permits an invite while a seat is free and blocks the next one', () => {
   const now = Date.parse('2026-10-21T00:00:00Z');
-  const roles = ['director', 'teacher'];
+  const roles = ['admin', 'teacher'];
   const pending = [{ status: 'pending', expires_at: '2026-10-22T00:00:00Z' }];
   assert.deepEqual(pricing.seatCapacity(roles, pending, 0, now), {used:1,reserved:1,allowance:2,remaining:0,canInvite:false});
-  assert.equal(pricing.seatCapacity(['director'], [], 0, now).canInvite, true);
+  assert.equal(pricing.seatCapacity(['admin'], [], 0, now).canInvite, true);
 });
 
 test('expired and revoked invitations release reservations', () => {
@@ -44,7 +44,7 @@ test('expired and revoked invitations release reservations', () => {
     {status:'pending',expires_at:'2026-10-20T00:00:00Z'},
     {status:'revoked',expires_at:'2026-10-22T00:00:00Z'}
   ];
-  assert.deepEqual(pricing.seatCapacity(['director','teacher'], invitations, 0, now), {used:1,reserved:0,allowance:2,remaining:1,canInvite:true});
+  assert.deepEqual(pricing.seatCapacity(['admin','teacher'], invitations, 0, now), {used:1,reserved:0,allowance:2,remaining:1,canInvite:true});
 });
 
 test('seat requests reject malformed or unreasonable quantities', () => {

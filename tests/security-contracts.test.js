@@ -4,78 +4,59 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.join(__dirname, '..');
-const migration = fs.readFileSync(path.join(root, 'supabase/migrations/202610210001_pricing_manual_seats.sql'), 'utf8');
+const billing = fs.readFileSync(path.join(root, 'supabase/migrations/202610210001_pricing_manual_seats.sql'), 'utf8');
+const roles = fs.readFileSync(path.join(root, 'supabase/migrations/202610230001_admin_platform_owner.sql'), 'utf8');
 const edge = fs.readFileSync(path.join(root, 'supabase/functions/campus-admin/index.ts'), 'utf8');
+const schema = fs.readFileSync(path.join(root, 'schema.sql'), 'utf8');
+const backend = fs.readFileSync(path.join(root, 'backend.js'), 'utf8');
 
-test('migration initializes existing and new campuses without overwriting data', () => {
-  assert.match(migration, /insert into public\.campus_subscriptions\(campus_id\)[\s\S]*?on conflict \(campus_id\) do nothing/i);
-  assert.match(migration, /after insert on public\.campuses/i);
+test('subscription migration initializes existing/new campuses without overwriting subscriptions', () => {
+  assert.match(billing, /insert into public\.campus_subscriptions\(campus_id\)[\s\S]*?on conflict \(campus_id\) do nothing/i);
+  assert.match(billing, /after insert on public\.campuses/i);
+  assert.match(billing, /base_price_inr integer not null default 499/i);
+  assert.match(billing, /included_staff_seats integer not null default 2/i);
+  assert.match(billing, /additional_seat_price_inr integer not null default 99/i);
 });
 
-test('invitation reservation is transactional, director-only, and includes active plus pending seats', () => {
-  assert.match(migration, /reserve_staff_invitation[\s\S]*?pillar_require_director\(p_actor_user_id\)/i);
-  assert.match(migration, /from public\.campus_subscriptions where campus_id = v_campus_id for update/i);
-  assert.match(migration, /finish_staff_invitation[\s\S]*?from public\.campus_subscriptions where campus_id=v_campus_id for update/i);
-  assert.match(migration, /revoke_staff_invitation[\s\S]*?from public\.campus_subscriptions where campus_id=v_campus_id for update/i);
-  assert.match(migration, /public\.pillar_staff_seats_used\(v_campus_id\)/i);
-  assert.match(migration, /status='pending' and expires_at>now\(\)/i);
-  assert.match(migration, /v_used \+ v_reserved >= v_sub\.included_staff_seats \+ v_sub\.additional_seats/i);
-  assert.match(migration, /on public\.staff_invitations\(lower\(invited_email\)\) where status = 'pending'/i);
-  assert.match(migration, /where status = 'pending' and expires_at <= now\(\)/i);
-  assert.match(migration, /select 1 from public\.campus_members m join auth\.users u on u\.id=m\.user_id[\s\S]*?staff_account_already_linked/i);
+test('Admin migration preserves owners and blocks ambiguous Director-to-Admin conversion', () => {
+  assert.match(roles, /create table if not exists public\.platform_owners/i);
+  assert.match(roles, /from public\.campus_founders[\s\S]*?on conflict \(user_id\) do nothing/i);
+  assert.match(roles, /admin_role_migration_conflict/i);
+  assert.match(roles, /update public\.campus_members set role = 'admin' where role = 'director'/i);
+  assert.match(roles, /campus_members_role_no_director_check/i);
+  assert.match(roles, /create unique index if not exists campus_members_one_active_admin_idx[\s\S]*?where active and role = 'admin'/i);
 });
 
-test('invitation acceptance, expiry, revocation, and request creation keep seat reservations consistent', () => {
-  assert.match(migration, /create or replace function public\.accept_staff_invitation/i);
-  assert.match(migration, /set status='expired'[\s\S]*?expires_at<=now\(\)/i);
-  assert.match(migration, /set status='revoked'/i);
-  assert.match(migration, /create unique index if not exists subscription_one_pending_request_idx/i);
-  assert.match(migration, /from public\.campus_subscriptions where campus_id=v_campus_id for update/i);
+test('only one Admin is excluded from staff use and invitations reserve seats transactionally', () => {
+  assert.match(roles, /role = 'admin'\)::integer, 1\)/i);
+  assert.match(roles, /reserve_staff_invitation[\s\S]*?pillar_require_admin\(p_actor_user_id\)/i);
+  assert.match(roles, /from public\.campus_subscriptions where campus_id=v_campus_id for update/i);
+  assert.match(roles, /v_used \+ v_reserved >= v_sub\.included_staff_seats \+ v_sub\.additional_seats/i);
+  assert.match(edge, /const STAFF_ROLES = new Set\(\['teacher', 'warden', 'health_worker', 'kitchen', 'bursar'\]\)/i);
+  assert.doesNotMatch(edge, /request_seats|resolve_seat_request|record_payment|adjust_seats/);
 });
 
-test('founder approval and manual updates are protected by a server-managed founder list and audit changes', () => {
-  assert.match(migration, /create table if not exists public\.campus_founders/i);
-  assert.match(migration, /perform public\.pillar_require_founder\(p_actor_user_id\)/i);
-  assert.match(migration, /revoke all on function public\.resolve_seat_request[\s\S]*?from public, anon, authenticated/i);
-  assert.match(migration, /grant execute on function[\s\S]*?to service_role/i);
-  assert.match(migration, /public\.subscription_audit_log/i);
-  assert.match(edge, /async function requireFounder/i);
-  assert.match(edge, /if \(action === 'founder_snapshot'\)/i);
-  assert.match(edge, /if \(action === 'resolve_seat_request'\)/i);
-  assert.match(edge, /if \(action === 'adjust_seats'\)\s*\{\s*await requireFounder/i);
-  assert.match(migration, /revoke all on function public\.adjust_subscription_seats[\s\S]*?from public, anon, authenticated/i);
+test('platform owner checks are separate from institute membership and hidden behind the Edge Function', () => {
+  assert.match(roles, /create or replace function public\.pillar_is_platform_owner/i);
+  assert.match(roles, /revoke all on public\.platform_owners from anon, authenticated/i);
+  assert.match(edge, /async function requirePlatformOwner[\s\S]*?from\('platform_owners'\)/i);
+  assert.match(edge, /if\(action==='platform_owner_summary'\)\{await requirePlatformOwner\(user\.id\)/i);
+  assert.match(edge, /if\(action==='platform_owner_status'\)\{await requirePlatformOwner\(user\.id\)/i);
 });
 
-test('director seat requests are campus-scoped and founder changes record dates and audit history', () => {
-  assert.match(migration, /submit_seat_request\([\s\S]*?pillar_require_director\(p_actor_user_id\)/i);
-  assert.match(migration, /subscription_one_pending_request_idx[\s\S]*?where status = 'pending'/i);
-  assert.match(migration, /resolve_seat_request\([\s\S]*?pillar_require_founder\(p_actor_user_id\)/i);
-  assert.match(migration, /billing_start_date_required/i);
-  assert.match(migration, /effective_date_required/i);
-  assert.match(migration, /subscription_audit_log\(campus_id,actor_user_id,action,previous_state,new_state,reason,request_id\)/i);
+test('institute data and dynamic names come from the authenticated membership', () => {
+  assert.match(schema, /using \(id = public\.my_campus_id\(\)\)/i);
+  assert.match(schema, /campus_id = public\.my_campus_id\(\)/i);
+  assert.match(backend, /from\('campus_members'\)[\s\S]*?eq\('user_id',session\.user\.id\)/i);
+  assert.match(backend, /from\('campuses'\)[\s\S]*?eq\('id',pillarLive\.member\.campus_id\)/i);
+  assert.match(backend, /textContent=campus\.name/i);
 });
 
-test('new subscription records remain private and authenticated users cannot mutate seat or billing records', () => {
-  assert.match(migration, /alter table public\.campus_subscriptions enable row level security/i);
-  assert.match(migration, /create policy campus_subscription_director_read[\s\S]*?my_campus_role\(\)='director'/i);
-  assert.match(migration, /create policy staff_invitation_director_read[\s\S]*?my_campus_role\(\)='director'/i);
-  assert.match(migration, /create policy seat_request_director_read[\s\S]*?my_campus_role\(\)='director'/i);
-  assert.match(migration, /revoke insert, update, delete on public\.campus_subscriptions, public\.staff_invitations, public\.subscription_seat_requests from anon, authenticated/i);
-  assert.match(migration, /revoke select on public\.subscription_seat_requests from anon, authenticated/i);
-  assert.match(edge, /subscription_seat_requests'[\s\S]*?director_message,created_at/i);
-  assert.match(migration, /revoke all on public\.campus_founders, public\.campus_manual_payments, public\.subscription_audit_log from anon, authenticated/i);
-  assert.match(migration, /grant select, insert, update on public\.campus_members to service_role/i);
-});
-
-test('Edge Function authenticates users and restricts director actions to their own membership', () => {
+test('Admin RLS and backend checks replace Director authorization', () => {
+  assert.match(schema, /campus_members_role_no_director_check check \(role <> 'director'\)/i);
+  assert.match(roles, /public\.my_campus_role\(\)='admin'/i);
+  assert.doesNotMatch(roles, /has_campus_role\(array\[[^\]]*'director'/i);
   assert.match(edge, /auth\.getUser\(\)/i);
-  assert.match(edge, /async function requireDirector/i);
-  assert.match(edge, /\.eq\('user_id', userId\)\.eq\('active', true\)\.eq\('role', 'director'\)/i);
-  assert.match(edge, /async function directorSummary[\s\S]*?member\.campus_id/i);
-});
-
-test('payment recording is manual and never exposes payment-provider or card collection code', () => {
-  assert.match(edge, /if \(action === 'record_payment'\)/i);
-  assert.match(migration, /create table if not exists public\.campus_manual_payments/i);
-  assert.doesNotMatch(edge, /stripe|razorpay|card_number|cvv/i);
+  assert.match(edge, /async function requireAdmin[\s\S]*?eq\('user_id',userId\)\.eq\('active',true\)\.eq\('role','admin'\)/i);
+  assert.doesNotMatch(edge, /director|founder_snapshot|seat_request|record_payment|adjust_seats/i);
 });
