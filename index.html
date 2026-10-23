@@ -1,107 +1,983 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f7f4">
-  <meta name="description" content="A simple school, coaching and hostel management dashboard designed for everyday phone use.">
+  <meta name="description"
+    content="A simple school, coaching and hostel management dashboard designed for everyday phone use.">
   <title>Pillar Campus — School & Hostel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Hind:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="features.css">
   <link rel="stylesheet" href="live.css">
   <link rel="stylesheet" href="subscriptions.css">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
-#publicHome[hidden],#authScreen[hidden],#appShell[hidden]{display:none!important}#authScreen{display:none!important}body.auth-mode #authScreen{display:grid!important}body.auth-mode #publicHome,body.campus-mode #publicHome,body.campus-mode #authScreen{display:none!important}.public-home{--ink:#183b31;--green:#28734f;--mint:#e8f2eb;--paper:#f7f8f4;--muted:#68776f;color:var(--ink);background:var(--paper);font-family:'DM Sans','Hind',sans-serif;min-height:100vh}.public-home *{box-sizing:border-box}.site-wrap{max-width:1160px;margin:auto;padding:0 24px}.site-nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}.site-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800;font-size:18px}.site-logo b{display:block}.site-logo small{display:block;color:var(--muted);font-size:11px;font-weight:500}.logo-box{width:42px;height:42px;border-radius:14px;background:#e3efe6;display:grid;place-items:center;color:var(--green);font-size:25px}.site-links{display:flex;align-items:center;gap:24px}.site-links a,.site-links button{color:var(--ink);text-decoration:none;background:none;border:0;font:600 13px inherit;cursor:pointer}.lang-pick{display:flex;gap:4px;background:#edf1ec;border-radius:99px;padding:4px}.lang-pick button{border:0;border-radius:99px;background:transparent;padding:7px 10px;color:var(--muted);font-size:12px;cursor:pointer}.lang-pick button.active{background:white;color:var(--green);box-shadow:0 1px 5px #183b3118}.pill-button{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;background:var(--green);color:white!important;padding:12px 18px;border-radius:12px;border:0;font-weight:700;cursor:pointer}.hero{display:grid;grid-template-columns:1.04fr .96fr;gap:44px;align-items:center;padding:64px 0 80px}.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--green);font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}.eyebrow:before{content:'';width:8px;height:8px;border-radius:50%;background:#7db38d}.hero h1{font-size:clamp(40px,5vw,64px);line-height:1.04;letter-spacing:-.045em;max-width:610px;margin:19px 0}.hero-copy{max-width:520px;color:#5b6d63;font-size:17px;line-height:1.7}.hero-actions{display:flex;gap:12px;align-items:center;margin-top:28px}.hero-actions .pill-button{padding:15px 21px}.text-button{color:var(--green);font-weight:700;text-decoration:none}.trust-line{margin-top:22px;font-size:12px;color:var(--muted)}.preview-shell{background:#e4eee6;padding:22px;border-radius:30px;transform:rotate(1deg)}.preview{background:#fff;border-radius:22px;padding:22px;box-shadow:0 24px 70px #193d301b;transform:rotate(-1deg)}.preview-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid #edf0ed}.preview-top b{font-size:14px}.preview-top small{display:block;color:var(--muted);margin-top:3px;font-size:11px}.today{background:#e7f3ea;color:#31714e;border-radius:99px;padding:7px 10px;font-size:10px;font-weight:700}.preview-stat{display:flex;justify-content:space-between;align-items:end;margin:18px 0}.preview-stat b{font-size:33px;letter-spacing:-.04em}.preview-stat small{display:block;color:var(--muted);font-size:11px}.present{font-size:11px;color:#28734f;font-weight:700}.roll-row{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;border-top:1px solid #f0f2ef;padding:12px 0;font-size:12px}.roll-no{width:32px;height:32px;display:grid;place-items:center;background:#f1f4f0;border-radius:10px;color:#607268;font-weight:700}.roll-row small{display:block;color:#87918b;font-size:10px;margin-top:3px}.status{font-size:10px;font-weight:700;padding:5px 8px;border-radius:99px}.status.ok{background:#e7f3ea;color:#28734f}.status.todo{background:#fbf1df;color:#a97418}.mock-note{font-size:10px;color:#909b94;margin-top:10px}.section{padding:66px 0}.section-head{max-width:680px;margin:0 auto 34px;text-align:center}.section-head h2{font-size:clamp(29px,3.7vw,43px);letter-spacing:-.035em;margin:12px 0}.section-head p{color:var(--muted);line-height:1.65;margin:0}.type-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.type-chip{background:#fff;border:1px solid #e8ece7;border-radius:15px;padding:18px 14px;text-align:center;font-weight:700;font-size:14px}.type-chip span{display:block;font-size:22px;margin-bottom:8px}.features{background:#eef3ee}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.feature-card{background:white;border:1px solid #e7ece7;border-radius:18px;padding:22px;min-height:180px}.feature-icon{width:42px;height:42px;border-radius:13px;background:#edf5ee;display:grid;place-items:center;color:#28734f;font-size:20px}.feature-card h3{font-size:16px;margin:16px 0 7px}.feature-card p{font-size:13px;line-height:1.6;color:var(--muted);margin:0}.director{display:grid;grid-template-columns:.95fr 1.05fr;gap:40px;align-items:center}.director-panel{background:#183e32;border-radius:24px;color:#fff;padding:30px}.director-panel h3{font-size:22px;margin:0 0 18px}.metric{display:grid;grid-template-columns:1fr auto;align-items:center;padding:14px 0;border-top:1px solid #ffffff25;font-size:13px}.metric strong{font-size:19px}.bars{height:94px;display:flex;align-items:end;gap:10px;margin:18px 0}.bars i{display:block;flex:1;background:#86c39a;border-radius:6px 6px 2px 2px}.director-copy h2{font-size:clamp(29px,3.7vw,43px);letter-spacing:-.035em;line-height:1.1}.director-copy p{color:var(--muted);line-height:1.7}.director-copy li{margin:12px 0;color:#3e574b}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.step{background:white;border-radius:18px;padding:22px;border:1px solid #e8ece7}.step b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#e8f2eb;color:#28734f;margin-bottom:14px}.step h3{margin:0 0 7px;font-size:15px}.step p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}.final-cta{background:#e7f1e8;border-radius:24px;padding:42px;text-align:center;margin-bottom:50px}.final-cta h2{font-size:34px;margin:0 0 9px}.final-cta p{color:var(--muted);margin:0 0 22px}.site-footer{border-top:1px solid #e4e9e3;padding:25px 0 34px;display:flex;justify-content:space-between;gap:16px;color:var(--muted);font-size:12px}.public-home[dir=rtl]{font-family:'Noto Naskh Arabic','Hind',sans-serif}.public-home[dir=rtl] .hero,.public-home[dir=rtl] .director{direction:rtl}.back-home{display:block;margin:14px auto 0;background:none;border:0;color:#52745e;font:600 13px inherit;cursor:pointer}@media(max-width:760px){.site-wrap{padding:0 17px}.site-nav{height:auto;min-height:68px;flex-wrap:wrap;padding:10px 0}.site-links{gap:8px}.site-links>a:not(.pill-button){display:none}.site-links .pill-button{padding:10px 12px;font-size:12px}.hero{grid-template-columns:1fr;gap:32px;padding:38px 0 55px}.hero h1{font-size:45px}.hero-copy{font-size:15px}.preview-shell{max-width:500px;margin:auto;width:100%}.section{padding:48px 0}.type-row{grid-template-columns:repeat(2,1fr)}.feature-grid{grid-template-columns:1fr 1fr}.feature-card{padding:17px;min-height:190px}.director{grid-template-columns:1fr;gap:24px}.steps{grid-template-columns:1fr}.site-footer{flex-direction:column}.final-cta{padding:32px 20px}}@media(max-width:430px){.feature-grid{grid-template-columns:1fr}.lang-pick button{padding:6px 8px}.site-logo{font-size:16px}.hero h1{font-size:39px}}
-.site-links button.pill-button{background:#28734f;color:#fff!important}
-</style>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
+
+    #publicHome[hidden],
+    #authScreen[hidden],
+    #appShell[hidden] {
+      display: none !important
+    }
+
+    #authScreen {
+      display: none !important
+    }
+
+    body.auth-mode #authScreen {
+      display: grid !important
+    }
+
+    body.auth-mode #publicHome,
+    body.campus-mode #publicHome,
+    body.campus-mode #authScreen {
+      display: none !important
+    }
+
+    .public-home {
+      --ink: #183b31;
+      --green: #28734f;
+      --mint: #e8f2eb;
+      --paper: #f7f8f4;
+      --muted: #68776f;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: 'DM Sans', 'Hind', sans-serif;
+      min-height: 100vh
+    }
+
+    .public-home * {
+      box-sizing: border-box
+    }
+
+    .site-wrap {
+      max-width: 1160px;
+      margin: auto;
+      padding: 0 24px
+    }
+
+    .site-nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px
+    }
+
+    .site-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 18px
+    }
+
+    .site-logo b {
+      display: block
+    }
+
+    .site-logo small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500
+    }
+
+    .logo-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: #e3efe6;
+      display: grid;
+      place-items: center;
+      color: var(--green);
+      font-size: 25px
+    }
+
+    .site-links {
+      display: flex;
+      align-items: center;
+      gap: 24px
+    }
+
+    .site-links a,
+    .site-links button {
+      color: var(--ink);
+      text-decoration: none;
+      background: none;
+      border: 0;
+      font: 600 13px inherit;
+      cursor: pointer
+    }
+
+    .lang-pick {
+      display: flex;
+      gap: 4px;
+      background: #edf1ec;
+      border-radius: 99px;
+      padding: 4px
+    }
+
+    .lang-pick button {
+      border: 0;
+      border-radius: 99px;
+      background: transparent;
+      padding: 7px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer
+    }
+
+    .lang-pick button.active {
+      background: white;
+      color: var(--green);
+      box-shadow: 0 1px 5px #183b3118
+    }
+
+    .pill-button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      background: var(--green);
+      color: white !important;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 0;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.04fr .96fr;
+      gap: 44px;
+      align-items: center;
+      padding: 64px 0 80px
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase
+    }
+
+    .eyebrow:before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #7db38d
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.04;
+      letter-spacing: -.045em;
+      max-width: 610px;
+      margin: 19px 0
+    }
+
+    .hero-copy {
+      max-width: 520px;
+      color: #5b6d63;
+      font-size: 17px;
+      line-height: 1.7
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 28px
+    }
+
+    .hero-actions .pill-button {
+      padding: 15px 21px
+    }
+
+    .text-button {
+      color: var(--green);
+      font-weight: 700;
+      text-decoration: none
+    }
+
+    .trust-line {
+      margin-top: 22px;
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    .preview-shell {
+      background: #e4eee6;
+      padding: 22px;
+      border-radius: 30px;
+      transform: rotate(1deg)
+    }
+
+    .preview {
+      background: #fff;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 24px 70px #193d301b;
+      transform: rotate(-1deg)
+    }
+
+    .preview-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #edf0ed
+    }
+
+    .preview-top b {
+      font-size: 14px
+    }
+
+    .preview-top small {
+      display: block;
+      color: var(--muted);
+      margin-top: 3px;
+      font-size: 11px
+    }
+
+    .today {
+      background: #e7f3ea;
+      color: #31714e;
+      border-radius: 99px;
+      padding: 7px 10px;
+      font-size: 10px;
+      font-weight: 700
+    }
+
+    .preview-stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin: 18px 0
+    }
+
+    .preview-stat b {
+      font-size: 33px;
+      letter-spacing: -.04em
+    }
+
+    .preview-stat small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px
+    }
+
+    .present {
+      font-size: 11px;
+      color: #28734f;
+      font-weight: 700
+    }
+
+    .roll-row {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border-top: 1px solid #f0f2ef;
+      padding: 12px 0;
+      font-size: 12px
+    }
+
+    .roll-no {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      background: #f1f4f0;
+      border-radius: 10px;
+      color: #607268;
+      font-weight: 700
+    }
+
+    .roll-row small {
+      display: block;
+      color: #87918b;
+      font-size: 10px;
+      margin-top: 3px
+    }
+
+    .status {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 8px;
+      border-radius: 99px
+    }
+
+    .status.ok {
+      background: #e7f3ea;
+      color: #28734f
+    }
+
+    .status.todo {
+      background: #fbf1df;
+      color: #a97418
+    }
+
+    .mock-note {
+      font-size: 10px;
+      color: #909b94;
+      margin-top: 10px
+    }
+
+    .section {
+      padding: 66px 0
+    }
+
+    .section-head {
+      max-width: 680px;
+      margin: 0 auto 34px;
+      text-align: center
+    }
+
+    .section-head h2 {
+      font-size: clamp(29px, 3.7vw, 43px);
+      letter-spacing: -.035em;
+      margin: 12px 0
+    }
+
+    .section-head p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0
+    }
+
+    .type-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px
+    }
+
+    .type-chip {
+      background: #fff;
+      border: 1px solid #e8ece7;
+      border-radius: 15px;
+      padding: 18px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px
+    }
+
+    .type-chip span {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 8px
+    }
+
+    .features {
+      background: #eef3ee
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid #e7ece7;
+      border-radius: 18px;
+      padding: 22px;
+      min-height: 180px
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: #edf5ee;
+      display: grid;
+      place-items: center;
+      color: #28734f;
+      font-size: 20px
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      margin: 16px 0 7px
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin: 0
+    }
+
+    .director {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 40px;
+      align-items: center
+    }
+
+    .director-panel {
+      background: #183e32;
+      border-radius: 24px;
+      color: #fff;
+      padding: 30px
+    }
+
+    .director-panel h3 {
+      font-size: 22px;
+      margin: 0 0 18px
+    }
+
+    .metric {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 14px 0;
+      border-top: 1px solid #ffffff25;
+      font-size: 13px
+    }
+
+    .metric strong {
+      font-size: 19px
+    }
+
+    .bars {
+      height: 94px;
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      margin: 18px 0
+    }
+
+    .bars i {
+      display: block;
+      flex: 1;
+      background: #86c39a;
+      border-radius: 6px 6px 2px 2px
+    }
+
+    .director-copy h2 {
+      font-size: clamp(29px, 3.7vw, 43px);
+      letter-spacing: -.035em;
+      line-height: 1.1
+    }
+
+    .director-copy p {
+      color: var(--muted);
+      line-height: 1.7
+    }
+
+    .director-copy li {
+      margin: 12px 0;
+      color: #3e574b
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px
+    }
+
+    .step {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      border: 1px solid #e8ece7
+    }
+
+    .step b {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e8f2eb;
+      color: #28734f;
+      margin-bottom: 14px
+    }
+
+    .step h3 {
+      margin: 0 0 7px;
+      font-size: 15px
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6
+    }
+
+    .final-cta {
+      background: #e7f1e8;
+      border-radius: 24px;
+      padding: 42px;
+      text-align: center;
+      margin-bottom: 50px
+    }
+
+    .final-cta h2 {
+      font-size: 34px;
+      margin: 0 0 9px
+    }
+
+    .final-cta p {
+      color: var(--muted);
+      margin: 0 0 22px
+    }
+
+    .site-footer {
+      border-top: 1px solid #e4e9e3;
+      padding: 25px 0 34px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .public-home[dir=rtl] {
+      font-family: 'Noto Naskh Arabic', 'Hind', sans-serif
+    }
+
+    .public-home[dir=rtl] .hero,
+    .public-home[dir=rtl] .director {
+      direction: rtl
+    }
+
+    .back-home {
+      display: block;
+      margin: 14px auto 0;
+      background: none;
+      border: 0;
+      color: #52745e;
+      font: 600 13px inherit;
+      cursor: pointer
+    }
+
+    @media(max-width:760px) {
+      .site-wrap {
+        padding: 0 17px
+      }
+
+      .site-nav {
+        height: auto;
+        min-height: 68px;
+        flex-wrap: wrap;
+        padding: 10px 0
+      }
+
+      .site-links {
+        gap: 8px
+      }
+
+      .site-links>a:not(.pill-button) {
+        display: none
+      }
+
+      .site-links .pill-button {
+        padding: 10px 12px;
+        font-size: 12px
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 38px 0 55px
+      }
+
+      .hero h1 {
+        font-size: 45px
+      }
+
+      .hero-copy {
+        font-size: 15px
+      }
+
+      .preview-shell {
+        max-width: 500px;
+        margin: auto;
+        width: 100%
+      }
+
+      .section {
+        padding: 48px 0
+      }
+
+      .type-row {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .feature-card {
+        padding: 17px;
+        min-height: 190px
+      }
+
+      .director {
+        grid-template-columns: 1fr;
+        gap: 24px
+      }
+
+      .steps {
+        grid-template-columns: 1fr
+      }
+
+      .site-footer {
+        flex-direction: column
+      }
+
+      .final-cta {
+        padding: 32px 20px
+      }
+    }
+
+    @media(max-width:430px) {
+      .feature-grid {
+        grid-template-columns: 1fr
+      }
+
+      .lang-pick button {
+        padding: 6px 8px
+      }
+
+      .site-logo {
+        font-size: 16px
+      }
+
+      .hero h1 {
+        font-size: 39px
+      }
+    }
+
+    .site-links button.pill-button {
+      background: #28734f;
+      color: #fff !important
+    }
+  </style>
 </head>
-<body><main class="public-home" id="publicHome" dir="ltr">
-  <div class="site-wrap"><header class="site-nav"><a class="site-logo" href="#top"><span class="logo-box">⌂</span><span><b>Pillar Campus</b><small data-t="brandLine">School · Hostel · Coaching · Madarsa</small></span></a><nav class="site-links" aria-label="Main"><a href="#about" data-t="navAbout">About</a><a href="#features" data-t="navFeatures">Features</a><a href="#director" data-t="navDirector">For institute admins</a><div class="lang-pick" aria-label="Choose language"><button type="button" data-lang="en" class="active">EN</button><button type="button" data-lang="hi">हिंदी</button><button type="button" data-lang="ur">اردو</button></div><button class="pill-button" type="button" data-open-signin data-t="signIn">Staff sign in</button></nav></header></div>
-  <section class="hero site-wrap" id="top"><div><span class="eyebrow" data-t="eyebrow">A calmer way to run campus</span><h1 data-t="heroTitle">One clear register.<br>A better campus day.</h1><p class="hero-copy" data-t="heroCopy">Pillar Campus brings school, coaching, madarsa and hostel routines into one simple place—so staff can record the day on a phone and institute admins can stay informed from anywhere.</p><div class="hero-actions"><button class="pill-button" type="button" data-open-signin data-t="openSign">Open staff sign in</button><a class="text-button" href="#features" data-t="explore">Explore features ↓</a></div><p class="trust-line" data-t="audience">Made for everyday phone use, with a clear view for campus leaders.</p></div><div class="preview-shell" aria-label="Sample attendance register"><div class="preview"><div class="preview-top"><div><b data-t="previewTitle">Morning roll call</b><small data-t="previewSub">Residential campus · Sample view</small></div><span class="today" data-t="today">TODAY</span></div><div class="preview-stat"><div><b>28/30</b><small data-t="onRoll">students marked</small></div><span class="present" data-t="present">● 28 present</span></div><div class="roll-row"><span class="roll-no">01</span><span data-t="studentOne">Student 01<small>Class 6 · Hostel</small></span><span class="status ok" data-t="marked">Present</span></div><div class="roll-row"><span class="roll-no">02</span><span data-t="studentTwo">Student 02<small>Class 6 · Hostel</small></span><span class="status ok" data-t="marked2">Present</span></div><div class="roll-row"><span class="roll-no">03</span><span data-t="studentThree">Student 03<small>Class 6 · Hostel</small></span><span class="status todo" data-t="toMark">To mark</span></div><div class="mock-note" data-t="sampleNote">Illustration only · no student records shown</div></div></div></section>
-  <section class="section site-wrap" id="about"><div class="section-head"><span class="eyebrow" data-t="forWho">One campus, many needs</span><h2 data-t="kindsTitle">Fits the way your campus works</h2><p data-t="kindsCopy">A shared digital register for schools, coaching centres, madarsas and residential hostels—built around simple daily routines.</p></div><div class="type-row"><div class="type-chip"><span>▤</span><span data-t="school">School</span></div><div class="type-chip"><span>✎</span><span data-t="coaching">Coaching</span></div><div class="type-chip"><span>☾</span><span data-t="madarsa">Madarsa</span></div><div class="type-chip"><span>⌂</span><span data-t="hostel">Hostel</span></div></div></section>
-  <section class="section features" id="features"><div class="site-wrap"><div class="section-head"><span class="eyebrow" data-t="builtForDay">The everyday register, made easier</span><h2 data-t="featureTitle">The important details, together</h2><p data-t="featureCopy">Less searching through notebooks. Clear records that staff can update and leaders can understand.</p></div><div class="feature-grid"><article class="feature-card"><span class="feature-icon">☑</span><h3 data-t="fAttendance">Roll-number attendance</h3><p data-t="dAttendance">Mark students in the same order as the paper register for quicker morning and evening counts.</p></article><article class="feature-card"><span class="feature-icon">⌂</span><h3 data-t="fHostel">Hostel rounds</h3><p data-t="dHostel">Record who is present, away or returned for morning and evening roll calls.</p></article><article class="feature-card"><span class="feature-icon">♧</span><h3 data-t="fStudents">Students & guardians</h3><p data-t="dStudents">Keep class, roll number and parent or guardian contact details together.</p></article><article class="feature-card"><span class="feature-icon">◷</span><h3 data-t="fLeave">Leave & outing follow-up</h3><p data-t="dLeave">Track expected return dates and notify the right staff when a student or staff member is overdue.</p></article><article class="feature-card"><span class="feature-icon">＋</span><h3 data-t="fHealth">Health notes</h3><p data-t="dHealth">Record check-ups, medicine notes and follow-up needs in the student record.</p></article><article class="feature-card"><span class="feature-icon">♨</span><h3 data-t="fKitchen">Kitchen & groceries</h3><p data-t="dKitchen">Track stock, daily use and low items so the kitchen team can plan purchases.</p></article><article class="feature-card"><span class="feature-icon">▧</span><h3 data-t="fPapers">Question-paper maker</h3><p data-t="dPapers">Enter questions and marks, then format two copies neatly on one A4 sheet.</p></article><article class="feature-card"><span class="feature-icon">₹</span><h3 data-t="fFees">Fees & staff</h3><p data-t="dFees">Keep fee dues and staff information visible to the people who need them.</p></article><article class="feature-card"><span class="feature-icon">▥</span><h3 data-t="fReports">Useful reports</h3><p data-t="dReports">See attendance patterns, leave, health follow-ups and kitchen stock at a glance.</p></article></div></div></section>
-  <section class="section site-wrap director" id="director"><div class="director-panel"><h3 data-t="overviewTitle">A quick campus picture</h3><div class="metric"><span data-t="metricAttendance">Attendance this week</span><strong>94%</strong></div><div class="bars" aria-label="Illustrative weekly attendance graph"><i style="height:66%"></i><i style="height:84%"></i><i style="height:74%"></i><i style="height:93%"></i><i style="height:80%"></i><i style="height:100%"></i><i style="height:87%"></i></div><div class="metric"><span data-t="metricReturn">Expected returns today</span><strong>04</strong></div><div class="metric"><span data-t="metricStock">Kitchen items to check</span><strong>02</strong></div><small data-t="chartNote">Illustrative dashboard preview</small></div><div class="director-copy"><span class="eyebrow" data-t="directorEyebrow">For institute Admins</span><h2 data-t="directorTitle">Stay close to campus, wherever you are.</h2><p data-t="directorCopy">A clear dashboard helps you spot attendance changes, overdue returns and items needing attention—even when you are in another city.</p><ul><li data-t="directorBullet1">Simple daily summaries for staff and wardens</li><li data-t="directorBullet2">Visual trends that make important changes easier to notice</li><li data-t="directorBullet3">Private access for your campus team</li></ul></div></section>
-  <section class="section site-wrap"><div class="section-head"><span class="eyebrow" data-t="simpleEyebrow">Easy to start each day</span><h2 data-t="simpleTitle">A familiar routine, on a phone</h2><p data-t="simpleCopy">Keep the steps clear for staff who already know the paper register.</p></div><div class="steps"><article class="step"><b>1</b><h3 data-t="stepOneTitle">Open today's register</h3><p data-t="stepOneCopy">Choose the class, hostel group or staff list.</p></article><article class="step"><b>2</b><h3 data-t="stepTwoTitle">Mark in roll order</h3><p data-t="stepTwoCopy">Tap present, absent or away as you call the names.</p></article><article class="step"><b>3</b><h3 data-t="stepThreeTitle">Share a clear update</h3><p data-t="stepThreeCopy">Leaders can review the day's picture and follow-ups.</p></article></div></section>
-  <section class="site-wrap"><div class="final-cta"><h2 data-t="closingTitle">Make the daily register easier.</h2><p data-t="closingCopy">Sign in to your campus workspace to continue.</p><button class="pill-button" type="button" data-open-signin data-t="closingButton">Staff sign in</button></div><footer class="site-footer"><span>© Pillar Campus · <span data-t="footerLine">Simple tools for school and hostel teams</span></span><span data-t="privacyLine">Campus records are private. This page shows sample information only.</span><button class="text-button" type="button" data-open-signin data-t="signIn">Staff sign in</button></footer></section>
-</main>
+
+<body>
+  <main class="public-home" id="publicHome" dir="ltr">
+    <div class="site-wrap">
+      <header class="site-nav"><a class="site-logo" href="#top"><span class="logo-box">⌂</span><span><b>Pillar
+              Campus</b><small data-t="brandLine">School · Hostel · Coaching · Madarsa</small></span></a>
+        <nav class="site-links" aria-label="Main"><a href="#about" data-t="navAbout">About</a><a href="#features"
+            data-t="navFeatures">Features</a><a href="#director" data-t="navDirector">For institute admins</a>
+          <div class="lang-pick" aria-label="Choose language"><button type="button" data-lang="en"
+              class="active">EN</button><button type="button" data-lang="hi">हिंदी</button><button type="button"
+              data-lang="ur">اردو</button></div><button class="pill-button" type="button" data-open-signin
+            data-t="signIn">Staff sign in</button>
+        </nav>
+      </header>
+    </div>
+    <section class="hero site-wrap" id="top">
+      <div><span class="eyebrow" data-t="eyebrow">A calmer way to run campus</span>
+        <h1 data-t="heroTitle">One clear register.<br>A better campus day.</h1>
+        <p class="hero-copy" data-t="heroCopy">Pillar Campus brings school, coaching, madarsa and hostel routines into
+          one simple place—so staff can record the day on a phone and institute admins can stay informed from anywhere.
+        </p>
+        <div class="hero-actions"><button class="pill-button" type="button" data-open-signin data-t="openSign">Open
+            staff sign in</button><a class="text-button" href="#features" data-t="explore">Explore features ↓</a></div>
+        <p class="trust-line" data-t="audience">Made for everyday phone use, with a clear view for campus leaders.</p>
+      </div>
+      <div class="preview-shell" aria-label="Sample attendance register">
+        <div class="preview">
+          <div class="preview-top">
+            <div><b data-t="previewTitle">Morning roll call</b><small data-t="previewSub">Residential campus · Sample
+                view</small></div><span class="today" data-t="today">TODAY</span>
+          </div>
+          <div class="preview-stat">
+            <div><b>28/30</b><small data-t="onRoll">students marked</small></div><span class="present"
+              data-t="present">● 28 present</span>
+          </div>
+          <div class="roll-row"><span class="roll-no">01</span><span data-t="studentOne">Student 01<small>Class 6 ·
+                Hostel</small></span><span class="status ok" data-t="marked">Present</span></div>
+          <div class="roll-row"><span class="roll-no">02</span><span data-t="studentTwo">Student 02<small>Class 6 ·
+                Hostel</small></span><span class="status ok" data-t="marked2">Present</span></div>
+          <div class="roll-row"><span class="roll-no">03</span><span data-t="studentThree">Student 03<small>Class 6 ·
+                Hostel</small></span><span class="status todo" data-t="toMark">To mark</span></div>
+          <div class="mock-note" data-t="sampleNote">Illustration only · no student records shown</div>
+        </div>
+      </div>
+    </section>
+    <section class="section site-wrap" id="about">
+      <div class="section-head"><span class="eyebrow" data-t="forWho">One campus, many needs</span>
+        <h2 data-t="kindsTitle">Fits the way your campus works</h2>
+        <p data-t="kindsCopy">A shared digital register for schools, coaching centres, madarsas and residential
+          hostels—built around simple daily routines.</p>
+      </div>
+      <div class="type-row">
+        <div class="type-chip"><span>▤</span><span data-t="school">School</span></div>
+        <div class="type-chip"><span>✎</span><span data-t="coaching">Coaching</span></div>
+        <div class="type-chip"><span>☾</span><span data-t="madarsa">Madarsa</span></div>
+        <div class="type-chip"><span>⌂</span><span data-t="hostel">Hostel</span></div>
+      </div>
+    </section>
+    <section class="section features" id="features">
+      <div class="site-wrap">
+        <div class="section-head"><span class="eyebrow" data-t="builtForDay">The everyday register, made easier</span>
+          <h2 data-t="featureTitle">The important details, together</h2>
+          <p data-t="featureCopy">Less searching through notebooks. Clear records that staff can update and leaders can
+            understand.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card"><span class="feature-icon">☑</span>
+            <h3 data-t="fAttendance">Roll-number attendance</h3>
+            <p data-t="dAttendance">Mark students in the same order as the paper register for quicker morning and
+              evening counts.</p>
+          </article>
+          <article class="feature-card"><span class="feature-icon">⌂</span>
+            <h3 data-t="fHostel">Hostel rounds</h3>
+            <p data-t="dHostel">Record who is present, away or returned for morning and evening roll calls.</p>
+          </article>
+          <article class="feature-card"><span class="feature-icon">♧</span>
+            <h3 data-t="fStudents">Students & guardians</h3>
+            <p data-t="dStudents">Keep class, roll number and parent or guardian contact details together.</p>
+          </article>
+          <article class="feature-card"><span class="feature-icon">◷</span>
+            <h3 data-t="fLeave">Leave & outing follow-up</h3>
+            <p data-t="dLeave">Track expected return dates and notify the right staff when a student or staff member is
+              overdue.</p>
+          </article>
+          <article class="feature-card"><span class="feature-icon">＋</span>
+            <h3 data-t="fHealth">Health notes</h3>
+            <p data-t="dHealth">Record check-ups, medicine notes and follow-up needs in the student record.</p>
+          </article>
+          <article class="feature-card"><span class="feature-icon">♨</span>
+            <h3 data-t="fKitchen">Kitchen & groceries</h3>
+            <p data-t="dKitchen">Track stock, daily use and low items so the kitchen team can plan purchases.</p>
+          </article>
+          <article class="feature-card"><span class="feature-icon">▧</span>
+            <h3 data-t="fPapers">Question-paper maker</h3>
+            <p data-t="dPapers">Enter questions and marks, then format two copies neatly on one A4 sheet.</p>
+          </article>
+          <article class="feature-card"><span class="feature-icon">₹</span>
+            <h3 data-t="fFees">Fees & staff</h3>
+            <p data-t="dFees">Keep fee dues and staff information visible to the people who need them.</p>
+          </article>
+          <article class="feature-card"><span class="feature-icon">▥</span>
+            <h3 data-t="fReports">Useful reports</h3>
+            <p data-t="dReports">See attendance patterns, leave, health follow-ups and kitchen stock at a glance.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section site-wrap director" id="director">
+      <div class="director-panel">
+        <h3 data-t="overviewTitle">A quick campus picture</h3>
+        <div class="metric"><span data-t="metricAttendance">Attendance this week</span><strong>94%</strong></div>
+        <div class="bars" aria-label="Illustrative weekly attendance graph"><i style="height:66%"></i><i
+            style="height:84%"></i><i style="height:74%"></i><i style="height:93%"></i><i style="height:80%"></i><i
+            style="height:100%"></i><i style="height:87%"></i></div>
+        <div class="metric"><span data-t="metricReturn">Expected returns today</span><strong>04</strong></div>
+        <div class="metric"><span data-t="metricStock">Kitchen items to check</span><strong>02</strong></div>
+        <small data-t="chartNote">Illustrative dashboard preview</small>
+      </div>
+      <div class="director-copy"><span class="eyebrow" data-t="directorEyebrow">For institute Admins</span>
+        <h2 data-t="directorTitle">Stay close to campus, wherever you are.</h2>
+        <p data-t="directorCopy">A clear dashboard helps you spot attendance changes, overdue returns and items needing
+          attention—even when you are in another city.</p>
+        <ul>
+          <li data-t="directorBullet1">Simple daily summaries for staff and wardens</li>
+          <li data-t="directorBullet2">Visual trends that make important changes easier to notice</li>
+          <li data-t="directorBullet3">Private access for your campus team</li>
+        </ul>
+      </div>
+    </section>
+    <section class="section site-wrap">
+      <div class="section-head"><span class="eyebrow" data-t="simpleEyebrow">Easy to start each day</span>
+        <h2 data-t="simpleTitle">A familiar routine, on a phone</h2>
+        <p data-t="simpleCopy">Keep the steps clear for staff who already know the paper register.</p>
+      </div>
+      <div class="steps">
+        <article class="step"><b>1</b>
+          <h3 data-t="stepOneTitle">Open today's register</h3>
+          <p data-t="stepOneCopy">Choose the class, hostel group or staff list.</p>
+        </article>
+        <article class="step"><b>2</b>
+          <h3 data-t="stepTwoTitle">Mark in roll order</h3>
+          <p data-t="stepTwoCopy">Tap present, absent or away as you call the names.</p>
+        </article>
+        <article class="step"><b>3</b>
+          <h3 data-t="stepThreeTitle">Share a clear update</h3>
+          <p data-t="stepThreeCopy">Leaders can review the day's picture and follow-ups.</p>
+        </article>
+      </div>
+    </section>
+    <section class="site-wrap">
+      <div class="final-cta">
+        <h2 data-t="closingTitle">Make the daily register easier.</h2>
+        <p data-t="closingCopy">Sign in to your campus workspace to continue.</p><button class="pill-button"
+          type="button" data-open-signin data-t="closingButton">Staff sign in</button>
+      </div>
+      <footer class="site-footer"><span>© Pillar Campus · <span data-t="footerLine">Simple tools for school and hostel
+            teams</span></span><span data-t="privacyLine">Campus records are private. This page shows sample information
+          only.</span><button class="text-button" type="button" data-open-signin data-t="signIn">Staff sign in</button>
+      </footer>
+    </section>
+  </main>
 
   <main class="auth-screen" id="authScreen">
     <section class="auth-card">
-      <div class="auth-brand"><span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 4 13v14l16 9 16-9V13L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M11 25c3-1 6-3 9-7 3 4 6 6 9 7M20 18v11M12 20l8 4 8-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Pillar Campus</strong><small>School · Hostel · Coaching · Madarsa</small></div></div>
+      <div class="auth-brand"><span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M20 4 4 13v14l16 9 16-9V13L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4" />
+            <path d="M11 25c3-1 6-3 9-7 3 4 6 6 9 7M20 18v11M12 20l8 4 8-4" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg></span>
+        <div><strong>Pillar Campus</strong><small>School · Hostel · Coaching · Madarsa</small></div>
+      </div>
       <div id="setupNotice" class="auth-notice" hidden>
         <span class="auth-notice-icon">⌂</span>
-        <div><h1>Connect your campus</h1><p>This app is ready for a private database. A campus administrator must finish the setup before staff can sign in.</p><ol><li>Create a Supabase project.</li><li>Run <b>schema.sql</b> in its SQL Editor.</li><li>Add the project URL and publishable key to <b>supabase-config.js</b>.</li><li>Create the institute Admin account and campus using the setup guide.</li></ol><p class="auth-footnote">The public website has no real student records. Do not add real student information until setup is complete.</p><a class="setup-help" href="SETUP.md">Open the full setup guide →</a></div>
+        <div>
+          <h1>Connect your campus</h1>
+          <p>This app is ready for a private database. A campus administrator must finish the setup before staff can
+            sign in.</p>
+          <ol>
+            <li>Create a Supabase project.</li>
+            <li>Run <b>schema.sql</b> in its SQL Editor.</li>
+            <li>Add the project URL and publishable key to <b>supabase-config.js</b>.</li>
+            <li>Create the institute Admin account and campus using the setup guide.</li>
+          </ol>
+          <p class="auth-footnote">The public website has no real student records. Do not add real student information
+            until setup is complete.</p><a class="setup-help" href="SETUP.md">Open the full setup guide →</a>
+        </div>
       </div>
       <form id="loginForm" class="login-form" hidden>
-        <h1>Welcome back</h1><p>Sign in to see your campus register.</p>
-        <label class="auth-field">Email address<input type="email" name="email" autocomplete="username" required></label>
-        <label class="auth-field">Password<input type="password" name="password" autocomplete="current-password" required></label>
+        <h1>Welcome back</h1>
+        <p>Sign in to see your campus register.</p>
+        <label class="auth-field">Email address<input type="email" name="email" autocomplete="username"
+            required></label>
+        <label class="auth-field">Password<input type="password" name="password" autocomplete="current-password"
+            required></label>
         <button class="auth-submit" type="submit">Sign in securely</button>
         <button class="auth-link" type="button" id="resetPassword">Forgot password?</button>
       </form>
       <form id="recoveryForm" class="login-form" hidden>
-        <h1>Set a new password</h1><p>Choose a password for your Pillar Campus account.</p>
-        <label class="auth-field">New password<input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
-        <label class="auth-field">Confirm new password<input type="password" name="confirmPassword" autocomplete="new-password" minlength="8" required></label>
+        <h1>Set a new password</h1>
+        <p>Choose a password for your Pillar Campus account.</p>
+        <label class="auth-field">New password<input type="password" name="password" autocomplete="new-password"
+            minlength="8" required></label>
+        <label class="auth-field">Confirm new password<input type="password" name="confirmPassword"
+            autocomplete="new-password" minlength="8" required></label>
         <button class="auth-submit" type="submit">Save new password</button>
         <button class="auth-link" type="button" id="backToLogin">Back to sign in</button>
       </form>
       <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
-      <div class="auth-footer">Private campus access <span>·</span> English <span>·</span> हिंदी <span>·</span> اردو</div>
+      <div class="auth-footer">Private campus access <span>·</span> English <span>·</span> हिंदी <span>·</span> اردو
+      </div>
     </section>
   </main>
   <div class="app-shell" id="appShell" hidden>
     <aside class="sidebar" id="sidebar">
       <a class="brand" href="#home" aria-label="Pillar Campus home">
-        <span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4 4 13v14l16 9 16-9V13L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M11 25c3-1 6-3 9-7 3 4 6 6 9 7M20 18v11M12 20l8 4 8-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="brand-mark"><svg viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M20 4 4 13v14l16 9 16-9V13L20 4Z" fill="none" stroke="currentColor" stroke-width="2.4" />
+            <path d="M11 25c3-1 6-3 9-7 3 4 6 6 9 7M20 18v11M12 20l8 4 8-4" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg></span>
         <span><strong>Pillar Campus</strong><small>School & Hostel</small></span>
       </a>
-      <button class="campus-select" type="button" aria-label="Current campus"><span class="campus-dot"></span><span><b id="campusName">Pillar Campus</b><small id="campusLocation">Campus register</small></span><span class="chevron">⌄</span></button>
-      <div class="nav-label">WORKSPACE <span>काम</span></div>
+      <button class="campus-select" type="button" aria-label="Current campus"><span class="campus-dot"></span><span><b
+            id="campusName">Pillar Campus</b><small id="campusLocation">Campus register</small></span><span
+          class="chevron">⌄</span></button>
+      <div class="nav-label">WORKSPACE</div>
       <nav class="main-nav" aria-label="Main navigation">
-        <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span><span class="nav-copy"><b>Overview</b><small>आज का हाल</small></span></button>
-        <button class="nav-item" data-page="attendance"><span class="nav-icon">☑</span><span class="nav-copy"><b>Attendance</b><small>हाज़िरी</small></span><span class="nav-badge">2</span></button>
-        <button class="nav-item" data-page="hostel"><span class="nav-icon">⌂</span><span class="nav-copy"><b>Hostel & meals</b><small>छात्रावास</small></span></button>
-        <button class="nav-item" data-page="students"><span class="nav-icon">♧</span><span class="nav-copy"><b>Students</b><small>बच्चे</small></span></button>
-        <button class="nav-item" data-page="papers"><span class="nav-icon">▤</span><span class="nav-copy"><b>Question papers</b><small>प्रश्न पत्र</small></span></button>
-        <button class="nav-item" data-page="health"><span class="nav-icon">＋</span><span class="nav-copy"><b>Health</b><small>सेहत</small></span><span class="nav-alert"></span></button>
-        <button class="nav-item" data-page="kitchen"><span class="nav-icon">♨</span><span class="nav-copy"><b>Kitchen stock</b><small>रसोई का सामान</small></span><span class="nav-badge warning">3</span></button>
+        <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span><span
+            class="nav-copy"><b>Overview</b><small>Aaj ka haal</small></span></button>
+        <button class="nav-item" data-page="attendance"><span class="nav-icon">☑</span><span
+            class="nav-copy"><b>Attendance</b><small>Hazri</small></span><span class="nav-badge">2</span></button>
+        <button class="nav-item" data-page="hostel"><span class="nav-icon">⌂</span><span class="nav-copy"><b>Hostel &
+              meals</b><small>Khana</small></span></button>
+        <button class="nav-item" data-page="students"><span class="nav-icon">♧</span><span
+            class="nav-copy"><b>Students</b><small>Bacche</small></span></button>
+        <button class="nav-item" data-page="papers"><span class="nav-icon">▤</span><span class="nav-copy"><b>Question
+              papers</b><small>Parcha</small></span></button>
+        <button class="nav-item" data-page="health"><span class="nav-icon">＋</span><span
+            class="nav-copy"><b>Health</b><small>Sehat</small></span><span class="nav-alert"></span></button>
+        <button class="nav-item" data-page="kitchen"><span class="nav-icon">♨</span><span class="nav-copy"><b>Kitchen
+              stock</b><small>Kitchen mein kiya kiya hai</small></span><span class="nav-badge warning">3</span></button>
         <div class="nav-separator"></div>
-        <button class="nav-item" data-page="reports"><span class="nav-icon">▥</span><span class="nav-copy"><b>Reports</b><small>रिपोर्ट</small></span></button>
-        <button class="nav-item" data-page="staff"><span class="nav-icon">♙</span><span class="nav-copy"><b>Staff</b><small>कर्मचारी</small></span></button>
-        <button class="nav-item" data-page="fees"><span class="nav-icon">₹</span><span class="nav-copy"><b>Fees & dues</b><small>फीस</small></span></button>
-        <button class="nav-item" data-page="subscriptions" id="subscriptionNav" hidden><span class="nav-icon">₹</span><span class="nav-copy"><b>Plan & staff seats</b><small>پلان اور عملہ</small></span></button>
-        <button class="nav-item" data-page="platform" id="platformNav" hidden><span class="nav-icon">⚙</span><span class="nav-copy"><b>Institutes</b><small>Platform Owner</small></span></button>
+        <button class="nav-item" data-page="reports"><span class="nav-icon">▥</span><span
+            class="nav-copy"><b>Reports</b><small>Sab reports ek saath</small></span></button>
+        <button class="nav-item" data-page="staff"><span class="nav-icon">♙</span><span
+            class="nav-copy"><b>Staff</b><small>Teachers</small></span></button>
+        <button class="nav-item" data-page="fees"><span class="nav-icon">₹</span><span class="nav-copy"><b>Fees &
+              dues</b><small>baccho ka fees wagaira</small></span></button>
+        <button class="nav-item" data-page="subscriptions" id="subscriptionNav" hidden><span
+            class="nav-icon">₹</span><span class="nav-copy"><b>Plan & staff seats</b><small>پلان اور
+              عملہ</small></span></button>
+        <button class="nav-item" data-page="platform" id="platformNav" hidden><span class="nav-icon">⚙</span><span
+            class="nav-copy"><b>Institutes</b><small>Platform Owner</small></span></button>
       </nav>
       <div class="sidebar-bottom">
-        <div class="sync-card"><span class="sync-icon">↻</span><div><b id="syncStatus">Private register</b><small id="syncDetails">Changes are saved securely</small></div><span class="sync-check">✓</span></div>
-        <button class="profile-button" type="button" id="sideSignOut"><span class="avatar avatar-admin" id="sideAvatar">PC</span><span><b id="sideUserName">Campus user</b><small id="sideRole">Staff</small></span><span class="chevron">⇥</span></button>
+        <div class="sync-card"><span class="sync-icon">↻</span>
+          <div><b id="syncStatus">Private register</b><small id="syncDetails">Changes are saved securely</small></div>
+          <span class="sync-check">✓</span>
+        </div>
+        <button class="profile-button" type="button" id="sideSignOut"><span class="avatar avatar-admin"
+            id="sideAvatar">PC</span><span><b id="sideUserName">Campus user</b><small
+              id="sideRole">Staff</small></span><span class="chevron">⇥</span></button>
       </div>
     </aside>
 
     <main class="main-area">
       <header class="topbar">
-        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu"><span></span><span></span><span></span></button>
+        <button class="mobile-menu" id="mobileMenu"
+          aria-label="Open menu"><span></span><span></span><span></span></button>
         <div class="breadcrumbs"><span>Pillar Campus</span><i>/</i><b id="crumbCurrent">Overview</b></div>
         <div class="top-actions">
-          <span class="today-date"><span class="date-dot"></span><span id="dateLabel">Tuesday, 20 October 2026</span></span>
-          <button class="language-toggle" id="languageToggle" aria-label="Switch language"><span class="lang-active">EN</span><span>हि</span><span>اردو</span></button>
-          <button class="icon-button notification-button" id="notificationButton" aria-label="Notifications"><span>♧</span><i></i></button>
+          <span class="today-date"><span class="date-dot"></span><span id="dateLabel">Tuesday, 20 October
+              2026</span></span>
+          <button class="language-toggle" id="languageToggle" aria-label="Switch language"><span
+              class="lang-active">EN</span><span>हि</span><span>اردو</span></button>
+          <button class="icon-button notification-button" id="notificationButton"
+            aria-label="Notifications"><span>♧</span><i></i></button>
           <span class="top-divider"></span>
-          <button class="top-profile" type="button" id="signOutButton" aria-label="Sign out"><span class="avatar avatar-admin" id="userAvatar">PC</span><span id="userName">Campus user</span><span class="chevron">⇥</span></button>
+          <button class="top-profile" type="button" id="signOutButton" aria-label="Sign out"><span
+              class="avatar avatar-admin" id="userAvatar">PC</span><span id="userName">Campus user</span><span
+              class="chevron">⇥</span></button>
         </div>
       </header>
       <div class="notification-popover" id="notificationPanel" hidden></div>
       <div class="content-area" id="contentArea"></div>
-      <footer class="footer-note"><span class="footer-leaf">✳</span> Made for the people who care for every child <span class="footer-hindi">· ہر بچے کی دیکھ بھال کے لیے</span><span class="footer-right" id="syncLabel">Private campus register</span></footer>
+      <footer class="footer-note"><span class="footer-leaf">✳</span> Made for the people by Faizan Ahmed
+        <span class="footer-right" id="syncLabel">Private
+          campus register</span>
+      </footer>
     </main>
   </div>
-  <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-icon">✓</span><span id="toastText">Saved successfully</span></div>
-  <div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div class="modal-icon" id="modalIcon">＋</div><h2 id="modalTitle">Add a record</h2><p id="modalDescription">Fill in the details below.</p><div id="modalFields"></div><div class="modal-actions"><button class="button button-quiet" id="modalCancel">Cancel</button><button class="button button-primary" id="modalSave">Save record</button></div></section></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-icon">✓</span><span
+      id="toastText">Saved successfully</span></div>
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close"
+        id="modalClose" aria-label="Close">×</button>
+      <div class="modal-icon" id="modalIcon">＋</div>
+      <h2 id="modalTitle">Add a record</h2>
+      <p id="modalDescription">Fill in the details below.</p>
+      <div id="modalFields"></div>
+      <div class="modal-actions"><button class="button button-quiet" id="modalCancel">Cancel</button><button
+          class="button button-primary" id="modalSave">Save record</button></div>
+    </section>
+  </div>
   <script src="supabase-config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
@@ -109,6 +985,7 @@
   <script src="features.js"></script>
   <script src="pricing.js"></script>
   <script src="subscriptions.js"></script>
-<script>(()=>{let h=document.getElementById('publicHome'),a=document.getElementById('authScreen'),s=document.getElementById('appShell'),b=document.body,d={hi:{"brandLine":"स्कूल · छात्रावास · कोचिंग · मदरसा","navAbout":"हमारे बारे में","navFeatures":"सुविधाएँ","navDirector":"एडमिन के लिए","signIn":"स्टाफ लॉग इन","eyebrow":"कैंपस चलाने का आसान तरीका","heroTitle":"एक साफ़ रजिस्टर।<br>कैंपस का बेहतर दिन।","heroCopy":"Pillar Campus में स्कूल, कोचिंग, मदरसे और छात्रावास के रोज़मर्रा के काम एक जगह दर्ज करें। स्टाफ फोन से काम करे और निदेशक कहीं से भी हाल जानें।","openSign":"स्टाफ लॉग इन खोलें","explore":"सुविधाएँ देखें ↓","audience":"फोन पर आसान इस्तेमाल, और कैंपस प्रमुखों के लिए साफ़ जानकारी।","previewTitle":"सुबह की हाज़िरी","previewSub":"रिहायशी कैंपस · नमूना","today":"आज","onRoll":"विद्यार्थियों की हाज़िरी","present":"● 28 उपस्थित","studentOne":"विद्यार्थी 01<small>कक्षा 6 · छात्रावास</small>","studentTwo":"विद्यार्थी 02<small>कक्षा 6 · छात्रावास</small>","studentThree":"विद्यार्थी 03<small>कक्षा 6 · छात्रावास</small>","marked":"उपस्थित","marked2":"उपस्थित","toMark":"बाक़ी","sampleNote":"केवल उदाहरण · असली विद्यार्थी रिकॉर्ड नहीं","forWho":"एक कैंपस, कई ज़रूरतें","kindsTitle":"आपके कैंपस के काम के अनुसार","kindsCopy":"स्कूल, कोचिंग, मदरसे और छात्रावास के लिए साझा डिजिटल रजिस्टर—रोज़मर्रा के आसान कामों के साथ।","school":"स्कूल","coaching":"कोचिंग","madarsa":"मदरसा","hostel":"छात्रावास","builtForDay":"रोज़ का रजिस्टर, अब आसान","featureTitle":"ज़रूरी जानकारी, एक जगह","featureCopy":"रजिस्टर ढूँढ़ने में कम समय। ऐसे साफ़ रिकॉर्ड जिन्हें स्टाफ भर सके और प्रबंधक आसानी से समझ सकें।","fAttendance":"रोल नंबर के अनुसार हाज़िरी","dAttendance":"सुबह और शाम की गिनती जल्दी करने के लिए विद्यार्थियों को कागज़ी रजिस्टर के उसी क्रम में दर्ज करें।","fHostel":"छात्रावास की गिनती","dHostel":"सुबह और शाम की हाज़िरी में दर्ज करें कि कौन मौजूद है, बाहर गया है या लौट आया है।","fStudents":"विद्यार्थी और अभिभावक","dStudents":"कक्षा, रोल नंबर और माता-पिता या अभिभावक की संपर्क जानकारी एक साथ रखें।","fLeave":"छुट्टी और बाहर जाने का हिसाब","dLeave":"विद्यार्थी या स्टाफ की छुट्टी और लौटने की तारीख दर्ज करें। देर होने पर सही व्यक्ति को सूचना दें।","fHealth":"सेहत की जानकारी","dHealth":"जाँच, दवा और आगे की देखभाल से जुड़ी जानकारी विद्यार्थी के रिकॉर्ड में रखें।","fKitchen":"रसोई और राशन","dKitchen":"राशन का स्टॉक, रोज़ का इस्तेमाल और कम होती चीज़ें देखें, ताकि रसोई टीम खरीद की तैयारी करे।","fPapers":"प्रश्नपत्र बनाने का तरीका","dPapers":"सवाल और अंक लिखें; दो प्रतियों को एक A4 पन्ने पर अपने आप सजाएँ।","fFees":"फीस और स्टाफ","dFees":"फीस की बाकी रकम और स्टाफ की जानकारी ज़रूरत के अनुसार देखें।","fReports":"काम की रिपोर्ट","dReports":"हाज़िरी, छुट्टी, सेहत की देखभाल और रसोई के स्टॉक का हाल एक नज़र में देखें।","overviewTitle":"कैंपस की एक नज़र में स्थिति","metricAttendance":"इस हफ़्ते की हाज़िरी","metricReturn":"आज लौटने वाले","metricStock":"रसोई में जाँचने की चीज़ें","chartNote":"डैशबोर्ड का उदाहरण","directorEyebrow":"संस्थान के एडमिन के लिए","directorTitle":"आप कहीं भी हों, कैंपस से जुड़े रहें।","directorCopy":"साफ़ डैशबोर्ड से हाज़िरी में बदलाव, देर से लौटने वालों और ध्यान देने वाली चीज़ों को देखें—भले ही आप दूसरे शहर में हों।","directorBullet1":"स्टाफ और वार्डन के लिए दिन का आसान सारांश","directorBullet2":"ऐसे ग्राफ़ जिनसे ज़रूरी बदलाव आसानी से दिखें","directorBullet3":"कैंपस टीम के लिए निजी और सुरक्षित पहुँच","simpleEyebrow":"हर दिन शुरू करना आसान","simpleTitle":"फोन पर, जाना-पहचाना रोज़ का काम","simpleCopy":"उन स्टाफ के लिए सीधे चरण जो कागज़ी रजिस्टर पहले से इस्तेमाल करते हैं।","stepOneTitle":"आज का रजिस्टर खोलें","stepOneCopy":"कक्षा, छात्रावास का समूह या स्टाफ सूची चुनें।","stepTwoTitle":"रोल नंबर के क्रम में हाज़िरी लें","stepTwoCopy":"नाम पुकारते हुए उपस्थित, अनुपस्थित या बाहर गए पर टैप करें।","stepThreeTitle":"साफ़ जानकारी साझा करें","stepThreeCopy":"प्रबंधक दिन की स्थिति और आगे के काम देख सकते हैं।","closingTitle":"रोज़ का रजिस्टर आसान बनाएँ।","closingCopy":"जारी रखने के लिए अपने कैंपस में लॉग इन करें।","closingButton":"स्टाफ लॉग इन","footerLine":"स्कूल और छात्रावास टीमों के लिए आसान साधन","privacyLine":"कैंपस रिकॉर्ड निजी हैं। इस पन्ने पर केवल नमूना जानकारी है।"},ur:{"brandLine":"اسکول · ہاسٹل · کوچنگ · مدرسہ","navAbout":"تعارف","navFeatures":"خصوصیات","navDirector":"ایڈمن کے لیے","signIn":"عملے کا لاگ اِن","eyebrow":"کیمپس چلانے کا آسان طریقہ","heroTitle":"ایک واضح رجسٹر۔<br>کیمپس کا بہتر دن۔","heroCopy":"Pillar Campus میں اسکول، کوچنگ، مدرسے اور ہاسٹل کے روزمرہ کام ایک جگہ درج کریں۔ عملہ فون سے اندراج کرے اور ڈائریکٹر کہیں سے بھی باخبر رہیں۔","openSign":"عملے کا لاگ اِن کھولیں","explore":"خصوصیات دیکھیں ↓","audience":"فون پر آسان استعمال، اور کیمپس کے منتظمین کے لیے واضح معلومات۔","previewTitle":"صبح کی حاضری","previewSub":"رہائشی کیمپس · نمونہ","today":"آج","onRoll":"طلبہ کی حاضری","present":"● 28 حاضر","studentOne":"طالب علم 01<small>جماعت 6 · ہاسٹل</small>","studentTwo":"طالب علم 02<small>جماعت 6 · ہاسٹل</small>","studentThree":"طالب علم 03<small>جماعت 6 · ہاسٹل</small>","marked":"حاضر","marked2":"حاضر","toMark":"باقی","sampleNote":"صرف مثال · طلبہ کا کوئی اصل ریکارڈ نہیں","forWho":"ایک کیمپس، کئی ضرورتیں","kindsTitle":"آپ کے کیمپس کے طریقۂ کار کے مطابق","kindsCopy":"اسکول، کوچنگ، مدرسے اور رہائشی ہاسٹل کے لیے مشترکہ ڈیجیٹل رجسٹر—روزمرہ کے آسان معمولات کے ساتھ۔","school":"اسکول","coaching":"کوچنگ","madarsa":"مدرسہ","hostel":"ہاسٹل","builtForDay":"روزانہ کا رجسٹر، اب آسان","featureTitle":"ضروری معلومات ایک جگہ","featureCopy":"کاغذی رجسٹروں میں تلاش کم کریں۔ ایسے واضح ریکارڈ جنہیں عملہ درج کرے اور منتظمین آسانی سے سمجھ سکیں۔","fAttendance":"رول نمبر کے مطابق حاضری","dAttendance":"صبح اور شام کی گنتی جلد کرنے کے لیے طلبہ کو کاغذی رجسٹر کے اسی ترتیب سے درج کریں۔","fHostel":"ہاسٹل کی حاضری","dHostel":"صبح اور شام کی حاضری میں درج کریں کہ کون موجود ہے، باہر گیا ہے یا واپس آ گیا ہے۔","fStudents":"طلبہ اور سرپرست","dStudents":"جماعت، رول نمبر اور والدین یا سرپرست کی رابطے کی معلومات ایک ساتھ رکھیں۔","fLeave":"چھٹی اور باہر جانے کی نگرانی","dLeave":"طلبہ یا عملے کی چھٹی اور واپسی کی تاریخ درج کریں۔ تاخیر ہو تو متعلقہ شخص کو اطلاع دیں۔","fHealth":"صحت کی معلومات","dHealth":"معائنے، دوا اور مزید دیکھ بھال کی معلومات طالب علم کے ریکارڈ میں رکھیں۔","fKitchen":"باورچی خانہ اور راشن","dKitchen":"راشن کا ذخیرہ، روزانہ استعمال اور کم ہوتی چیزیں دیکھیں تاکہ باورچی خانہ خریداری کی تیاری کر سکے۔","fPapers":"سوالیہ پرچہ تیار کریں","dPapers":"سوال اور نمبر درج کریں؛ دو پرچے ایک A4 صفحے پر خودکار انداز میں ترتیب پائیں گے۔","fFees":"فیس اور عملہ","dFees":"بقایا فیس اور عملے کی معلومات ضرورت کے مطابق دیکھیں۔","fReports":"مفید رپورٹیں","dReports":"حاضری، چھٹی، صحت کی دیکھ بھال اور باورچی خانے کے ذخیرے کی صورتِ حال ایک نظر میں دیکھیں۔","overviewTitle":"کیمپس کی ایک نظر میں صورتِ حال","metricAttendance":"اس ہفتے کی حاضری","metricReturn":"آج واپس آنے والے","metricStock":"باورچی خانے میں جانچنے کی چیزیں","chartNote":"ڈیش بورڈ کی نمونہ جھلک","directorEyebrow":"ادارے کے ایڈمن کے لیے","directorTitle":"آپ کہیں بھی ہوں، کیمپس سے باخبر رہیں۔","directorCopy":"واضح ڈیش بورڈ سے حاضری میں تبدیلی، دیر سے واپس آنے والوں اور توجہ طلب چیزوں کو دیکھیں—چاہے آپ کسی دوسرے شہر میں ہوں۔","directorBullet1":"عملے اور وارڈن کے لیے روزانہ کا آسان خلاصہ","directorBullet2":"ایسے گراف جو اہم تبدیلیاں نمایاں کریں","directorBullet3":"کیمپس کی ٹیم کے لیے نجی رسائی","simpleEyebrow":"ہر دن کا آغاز آسان","simpleTitle":"فون پر، روزمرہ کا مانوس طریقہ","simpleCopy":"ان عملے کے لیے آسان مراحل جو پہلے ہی کاغذی رجسٹر استعمال کرتے ہیں۔","stepOneTitle":"آج کا رجسٹر کھولیں","stepOneCopy":"جماعت، ہاسٹل گروپ یا عملے کی فہرست چنیں۔","stepTwoTitle":"رول نمبر کی ترتیب سے حاضری لیں","stepTwoCopy":"نام پکارتے ہوئے حاضر، غیر حاضر یا باہر جانے پر ٹیپ کریں۔","stepThreeTitle":"واضح اطلاع دیں","stepThreeCopy":"منتظمین دن کی صورتِ حال اور ضروری اگلے کام دیکھ سکتے ہیں۔","closingTitle":"روزانہ کا رجسٹر آسان بنائیں۔","closingCopy":"جاری رکھنے کے لیے اپنے کیمپس میں لاگ اِن کریں۔","closingButton":"عملے کا لاگ اِن","footerLine":"اسکول اور ہاسٹل کی ٹیموں کے لیے آسان سہولتیں","privacyLine":"کیمپس کے ریکارڈ نجی ہیں۔ اس صفحے پر صرف نمونہ معلومات ہیں۔"}};let back=document.createElement('button');back.type='button';back.className='back-home';back.textContent='← Back to welcome page';a.querySelector('.auth-card').append(back);function login(){b.classList.add('auth-mode');a.hidden=false;history.replaceState(null,'',location.pathname+location.search+'#sign-in');scrollTo(0,0)}function welcome(){b.classList.remove('auth-mode');a.hidden=true;history.replaceState(null,'',location.pathname+location.search);scrollTo(0,0)}document.querySelectorAll('[data-open-signin]').forEach(x=>x.onclick=login);back.onclick=welcome;function lang(x){document.querySelectorAll('#publicHome [data-t]').forEach(e=>{if(!e.dataset.en)e.dataset.en=e.innerHTML;e.innerHTML=x==='en'?e.dataset.en:(d[x][e.dataset.t]||e.dataset.en)});h.dir=x==='ur'?'rtl':'ltr';document.documentElement.lang=x;document.querySelectorAll('[data-lang]').forEach(y=>y.classList.toggle('active',y.dataset.lang===x));try{localStorage.setItem('pillar-public-lang',x)}catch(e){}}document.querySelectorAll('[data-lang]').forEach(x=>x.onclick=()=>lang(x.dataset.lang));let x='en';try{x=localStorage.getItem('pillar-public-lang')||'en'}catch(e){}lang(d[x]?x:'en');if(location.hash.includes('access_token')||location.hash.includes('type=recovery')||location.hash.includes('type=invite')||location.hash==='#sign-in'||new URLSearchParams(location.search).has('code')){b.classList.add('auth-mode');a.hidden=false}new MutationObserver(()=>{b.classList.toggle('campus-mode',!s.hidden);if(!s.hidden)b.classList.remove('auth-mode')}).observe(s,{attributes:true,attributeFilter:['hidden']})})();</script>
+  <script>(() => { let h = document.getElementById('publicHome'), a = document.getElementById('authScreen'), s = document.getElementById('appShell'), b = document.body, d = { hi: { "brandLine": "स्कूल · छात्रावास · कोचिंग · मदरसा", "navAbout": "हमारे बारे में", "navFeatures": "सुविधाएँ", "navDirector": "एडमिन के लिए", "signIn": "स्टाफ लॉग इन", "eyebrow": "कैंपस चलाने का आसान तरीका", "heroTitle": "एक साफ़ रजिस्टर।<br>कैंपस का बेहतर दिन।", "heroCopy": "Pillar Campus में स्कूल, कोचिंग, मदरसे और छात्रावास के रोज़मर्रा के काम एक जगह दर्ज करें। स्टाफ फोन से काम करे और निदेशक कहीं से भी हाल जानें।", "openSign": "स्टाफ लॉग इन खोलें", "explore": "सुविधाएँ देखें ↓", "audience": "फोन पर आसान इस्तेमाल, और कैंपस प्रमुखों के लिए साफ़ जानकारी।", "previewTitle": "सुबह की हाज़िरी", "previewSub": "रिहायशी कैंपस · नमूना", "today": "आज", "onRoll": "विद्यार्थियों की हाज़िरी", "present": "● 28 उपस्थित", "studentOne": "विद्यार्थी 01<small>कक्षा 6 · छात्रावास</small>", "studentTwo": "विद्यार्थी 02<small>कक्षा 6 · छात्रावास</small>", "studentThree": "विद्यार्थी 03<small>कक्षा 6 · छात्रावास</small>", "marked": "उपस्थित", "marked2": "उपस्थित", "toMark": "बाक़ी", "sampleNote": "केवल उदाहरण · असली विद्यार्थी रिकॉर्ड नहीं", "forWho": "एक कैंपस, कई ज़रूरतें", "kindsTitle": "आपके कैंपस के काम के अनुसार", "kindsCopy": "स्कूल, कोचिंग, मदरसे और छात्रावास के लिए साझा डिजिटल रजिस्टर—रोज़मर्रा के आसान कामों के साथ।", "school": "स्कूल", "coaching": "कोचिंग", "madarsa": "मदरसा", "hostel": "छात्रावास", "builtForDay": "रोज़ का रजिस्टर, अब आसान", "featureTitle": "ज़रूरी जानकारी, एक जगह", "featureCopy": "रजिस्टर ढूँढ़ने में कम समय। ऐसे साफ़ रिकॉर्ड जिन्हें स्टाफ भर सके और प्रबंधक आसानी से समझ सकें।", "fAttendance": "रोल नंबर के अनुसार हाज़िरी", "dAttendance": "सुबह और शाम की गिनती जल्दी करने के लिए विद्यार्थियों को कागज़ी रजिस्टर के उसी क्रम में दर्ज करें।", "fHostel": "छात्रावास की गिनती", "dHostel": "सुबह और शाम की हाज़िरी में दर्ज करें कि कौन मौजूद है, बाहर गया है या लौट आया है।", "fStudents": "विद्यार्थी और अभिभावक", "dStudents": "कक्षा, रोल नंबर और माता-पिता या अभिभावक की संपर्क जानकारी एक साथ रखें।", "fLeave": "छुट्टी और बाहर जाने का हिसाब", "dLeave": "विद्यार्थी या स्टाफ की छुट्टी और लौटने की तारीख दर्ज करें। देर होने पर सही व्यक्ति को सूचना दें।", "fHealth": "सेहत की जानकारी", "dHealth": "जाँच, दवा और आगे की देखभाल से जुड़ी जानकारी विद्यार्थी के रिकॉर्ड में रखें।", "fKitchen": "रसोई और राशन", "dKitchen": "राशन का स्टॉक, रोज़ का इस्तेमाल और कम होती चीज़ें देखें, ताकि रसोई टीम खरीद की तैयारी करे।", "fPapers": "प्रश्नपत्र बनाने का तरीका", "dPapers": "सवाल और अंक लिखें; दो प्रतियों को एक A4 पन्ने पर अपने आप सजाएँ।", "fFees": "फीस और स्टाफ", "dFees": "फीस की बाकी रकम और स्टाफ की जानकारी ज़रूरत के अनुसार देखें।", "fReports": "काम की रिपोर्ट", "dReports": "हाज़िरी, छुट्टी, सेहत की देखभाल और रसोई के स्टॉक का हाल एक नज़र में देखें।", "overviewTitle": "कैंपस की एक नज़र में स्थिति", "metricAttendance": "इस हफ़्ते की हाज़िरी", "metricReturn": "आज लौटने वाले", "metricStock": "रसोई में जाँचने की चीज़ें", "chartNote": "डैशबोर्ड का उदाहरण", "directorEyebrow": "संस्थान के एडमिन के लिए", "directorTitle": "आप कहीं भी हों, कैंपस से जुड़े रहें।", "directorCopy": "साफ़ डैशबोर्ड से हाज़िरी में बदलाव, देर से लौटने वालों और ध्यान देने वाली चीज़ों को देखें—भले ही आप दूसरे शहर में हों।", "directorBullet1": "स्टाफ और वार्डन के लिए दिन का आसान सारांश", "directorBullet2": "ऐसे ग्राफ़ जिनसे ज़रूरी बदलाव आसानी से दिखें", "directorBullet3": "कैंपस टीम के लिए निजी और सुरक्षित पहुँच", "simpleEyebrow": "हर दिन शुरू करना आसान", "simpleTitle": "फोन पर, जाना-पहचाना रोज़ का काम", "simpleCopy": "उन स्टाफ के लिए सीधे चरण जो कागज़ी रजिस्टर पहले से इस्तेमाल करते हैं।", "stepOneTitle": "आज का रजिस्टर खोलें", "stepOneCopy": "कक्षा, छात्रावास का समूह या स्टाफ सूची चुनें।", "stepTwoTitle": "रोल नंबर के क्रम में हाज़िरी लें", "stepTwoCopy": "नाम पुकारते हुए उपस्थित, अनुपस्थित या बाहर गए पर टैप करें।", "stepThreeTitle": "साफ़ जानकारी साझा करें", "stepThreeCopy": "प्रबंधक दिन की स्थिति और आगे के काम देख सकते हैं।", "closingTitle": "रोज़ का रजिस्टर आसान बनाएँ।", "closingCopy": "जारी रखने के लिए अपने कैंपस में लॉग इन करें।", "closingButton": "स्टाफ लॉग इन", "footerLine": "स्कूल और छात्रावास टीमों के लिए आसान साधन", "privacyLine": "कैंपस रिकॉर्ड निजी हैं। इस पन्ने पर केवल नमूना जानकारी है।" }, ur: { "brandLine": "اسکول · ہاسٹل · کوچنگ · مدرسہ", "navAbout": "تعارف", "navFeatures": "خصوصیات", "navDirector": "ایڈمن کے لیے", "signIn": "عملے کا لاگ اِن", "eyebrow": "کیمپس چلانے کا آسان طریقہ", "heroTitle": "ایک واضح رجسٹر۔<br>کیمپس کا بہتر دن۔", "heroCopy": "Pillar Campus میں اسکول، کوچنگ، مدرسے اور ہاسٹل کے روزمرہ کام ایک جگہ درج کریں۔ عملہ فون سے اندراج کرے اور ڈائریکٹر کہیں سے بھی باخبر رہیں۔", "openSign": "عملے کا لاگ اِن کھولیں", "explore": "خصوصیات دیکھیں ↓", "audience": "فون پر آسان استعمال، اور کیمپس کے منتظمین کے لیے واضح معلومات۔", "previewTitle": "صبح کی حاضری", "previewSub": "رہائشی کیمپس · نمونہ", "today": "آج", "onRoll": "طلبہ کی حاضری", "present": "● 28 حاضر", "studentOne": "طالب علم 01<small>جماعت 6 · ہاسٹل</small>", "studentTwo": "طالب علم 02<small>جماعت 6 · ہاسٹل</small>", "studentThree": "طالب علم 03<small>جماعت 6 · ہاسٹل</small>", "marked": "حاضر", "marked2": "حاضر", "toMark": "باقی", "sampleNote": "صرف مثال · طلبہ کا کوئی اصل ریکارڈ نہیں", "forWho": "ایک کیمپس، کئی ضرورتیں", "kindsTitle": "آپ کے کیمپس کے طریقۂ کار کے مطابق", "kindsCopy": "اسکول، کوچنگ، مدرسے اور رہائشی ہاسٹل کے لیے مشترکہ ڈیجیٹل رجسٹر—روزمرہ کے آسان معمولات کے ساتھ۔", "school": "اسکول", "coaching": "کوچنگ", "madarsa": "مدرسہ", "hostel": "ہاسٹل", "builtForDay": "روزانہ کا رجسٹر، اب آسان", "featureTitle": "ضروری معلومات ایک جگہ", "featureCopy": "کاغذی رجسٹروں میں تلاش کم کریں۔ ایسے واضح ریکارڈ جنہیں عملہ درج کرے اور منتظمین آسانی سے سمجھ سکیں۔", "fAttendance": "رول نمبر کے مطابق حاضری", "dAttendance": "صبح اور شام کی گنتی جلد کرنے کے لیے طلبہ کو کاغذی رجسٹر کے اسی ترتیب سے درج کریں۔", "fHostel": "ہاسٹل کی حاضری", "dHostel": "صبح اور شام کی حاضری میں درج کریں کہ کون موجود ہے، باہر گیا ہے یا واپس آ گیا ہے۔", "fStudents": "طلبہ اور سرپرست", "dStudents": "جماعت، رول نمبر اور والدین یا سرپرست کی رابطے کی معلومات ایک ساتھ رکھیں۔", "fLeave": "چھٹی اور باہر جانے کی نگرانی", "dLeave": "طلبہ یا عملے کی چھٹی اور واپسی کی تاریخ درج کریں۔ تاخیر ہو تو متعلقہ شخص کو اطلاع دیں۔", "fHealth": "صحت کی معلومات", "dHealth": "معائنے، دوا اور مزید دیکھ بھال کی معلومات طالب علم کے ریکارڈ میں رکھیں۔", "fKitchen": "باورچی خانہ اور راشن", "dKitchen": "راشن کا ذخیرہ، روزانہ استعمال اور کم ہوتی چیزیں دیکھیں تاکہ باورچی خانہ خریداری کی تیاری کر سکے۔", "fPapers": "سوالیہ پرچہ تیار کریں", "dPapers": "سوال اور نمبر درج کریں؛ دو پرچے ایک A4 صفحے پر خودکار انداز میں ترتیب پائیں گے۔", "fFees": "فیس اور عملہ", "dFees": "بقایا فیس اور عملے کی معلومات ضرورت کے مطابق دیکھیں۔", "fReports": "مفید رپورٹیں", "dReports": "حاضری، چھٹی، صحت کی دیکھ بھال اور باورچی خانے کے ذخیرے کی صورتِ حال ایک نظر میں دیکھیں۔", "overviewTitle": "کیمپس کی ایک نظر میں صورتِ حال", "metricAttendance": "اس ہفتے کی حاضری", "metricReturn": "آج واپس آنے والے", "metricStock": "باورچی خانے میں جانچنے کی چیزیں", "chartNote": "ڈیش بورڈ کی نمونہ جھلک", "directorEyebrow": "ادارے کے ایڈمن کے لیے", "directorTitle": "آپ کہیں بھی ہوں، کیمپس سے باخبر رہیں۔", "directorCopy": "واضح ڈیش بورڈ سے حاضری میں تبدیلی، دیر سے واپس آنے والوں اور توجہ طلب چیزوں کو دیکھیں—چاہے آپ کسی دوسرے شہر میں ہوں۔", "directorBullet1": "عملے اور وارڈن کے لیے روزانہ کا آسان خلاصہ", "directorBullet2": "ایسے گراف جو اہم تبدیلیاں نمایاں کریں", "directorBullet3": "کیمپس کی ٹیم کے لیے نجی رسائی", "simpleEyebrow": "ہر دن کا آغاز آسان", "simpleTitle": "فون پر، روزمرہ کا مانوس طریقہ", "simpleCopy": "ان عملے کے لیے آسان مراحل جو پہلے ہی کاغذی رجسٹر استعمال کرتے ہیں۔", "stepOneTitle": "آج کا رجسٹر کھولیں", "stepOneCopy": "جماعت، ہاسٹل گروپ یا عملے کی فہرست چنیں۔", "stepTwoTitle": "رول نمبر کی ترتیب سے حاضری لیں", "stepTwoCopy": "نام پکارتے ہوئے حاضر، غیر حاضر یا باہر جانے پر ٹیپ کریں۔", "stepThreeTitle": "واضح اطلاع دیں", "stepThreeCopy": "منتظمین دن کی صورتِ حال اور ضروری اگلے کام دیکھ سکتے ہیں۔", "closingTitle": "روزانہ کا رجسٹر آسان بنائیں۔", "closingCopy": "جاری رکھنے کے لیے اپنے کیمپس میں لاگ اِن کریں۔", "closingButton": "عملے کا لاگ اِن", "footerLine": "اسکول اور ہاسٹل کی ٹیموں کے لیے آسان سہولتیں", "privacyLine": "کیمپس کے ریکارڈ نجی ہیں۔ اس صفحے پر صرف نمونہ معلومات ہیں۔" } }; let back = document.createElement('button'); back.type = 'button'; back.className = 'back-home'; back.textContent = '← Back to welcome page'; a.querySelector('.auth-card').append(back); function login() { b.classList.add('auth-mode'); a.hidden = false; history.replaceState(null, '', location.pathname + location.search + '#sign-in'); scrollTo(0, 0) } function welcome() { b.classList.remove('auth-mode'); a.hidden = true; history.replaceState(null, '', location.pathname + location.search); scrollTo(0, 0) } document.querySelectorAll('[data-open-signin]').forEach(x => x.onclick = login); back.onclick = welcome; function lang(x) { document.querySelectorAll('#publicHome [data-t]').forEach(e => { if (!e.dataset.en) e.dataset.en = e.innerHTML; e.innerHTML = x === 'en' ? e.dataset.en : (d[x][e.dataset.t] || e.dataset.en) }); h.dir = x === 'ur' ? 'rtl' : 'ltr'; document.documentElement.lang = x; document.querySelectorAll('[data-lang]').forEach(y => y.classList.toggle('active', y.dataset.lang === x)); try { localStorage.setItem('pillar-public-lang', x) } catch (e) { } } document.querySelectorAll('[data-lang]').forEach(x => x.onclick = () => lang(x.dataset.lang)); let x = 'en'; try { x = localStorage.getItem('pillar-public-lang') || 'en' } catch (e) { } lang(d[x] ? x : 'en'); if (location.hash.includes('access_token') || location.hash.includes('type=recovery') || location.hash.includes('type=invite') || location.hash === '#sign-in' || new URLSearchParams(location.search).has('code')) { b.classList.add('auth-mode'); a.hidden = false } new MutationObserver(() => { b.classList.toggle('campus-mode', !s.hidden); if (!s.hidden) b.classList.remove('auth-mode') }).observe(s, { attributes: true, attributeFilter: ['hidden'] }) })();</script>
 </body>
+
 </html>
