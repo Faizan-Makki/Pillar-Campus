@@ -108,7 +108,125 @@ function liveRenderAttendance() { const filtered = students.filter(s => attendan
 
 function liveRenderHostel() { const residents = students.filter(s => s.residency === 'resident'), active = leaveRecords.filter(r => !r.returned); return `${liveTopHeading('Hostel & meals <span class="hindi-inline">ہاسٹل اور کھانا</span>', 'Morning and evening roll-call for resident children.', liveCan('admin', 'warden') ? button('Add leave / outing', 'add-leave', 'button button-quiet', '＋') : '')}<section class="stats-grid">${stat('Resident children', String(residents.length), 'From the student register', '⌂')}${stat('Checked in', String(residents.filter(s => s.status === 'Present').length), `${attendanceShift.toLowerCase()} attendance`, '✓', 'orange')}${stat('Away on leave', String(active.length), `${liveOverdue().length} overdue return(s)`, '↗', 'blue')}${stat('Meals planned', `${pillarLive.meals.filter(m => m.served).length} / ${pillarLive.meals.length}`, `${pillarLive.meals.length} meal entries today`, '♨')}</section><div class="toolbar-line" style="justify-content:space-between;margin:7px 0 12px"><div class="attendance-tabs"><button class="${attendanceShift === 'Morning' ? 'active' : ''}" data-action="shift-morning">Morning · صبح</button><button class="${attendanceShift === 'Evening' ? 'active' : ''}" data-action="shift-evening">Evening · شام</button></div><span class="page-subtitle">${esc(liveDateLabel())} · in hostel roll order</span></div><div class="two-column"><section class="card table-card"><div class="card-header"><div><h3>Resident check-in <span class="hindi-inline">ہاسٹل حاضری</span></h3><p>hostel register</p></div><label class="search-box"><span>⌕</span><input id="hostelSearch" placeholder="Find a resident…" aria-label="Find a resident"></label></div><div class="register-note"><span>✓</span> Mark each child's arrival, then save the ${attendanceShift.toLowerCase()} list.</div>${table(liveStudentRows(residents, { attendance: true, check: true }), { headers: ['Roll no.', 'Student name', 'Here?', 'Class / room', 'Today', 'Marked at'] })}<div class="table-footer"><span>${residents.length} resident(s) · sorted by roll number</span><button class="text-link" data-action="save-hostel">Save check-in →</button></div></section><div class="side-stack"><article class="info-card card"><h3>Today’s meal plan <span class="hindi-inline">آج کا کھانا</span></h3><p>Menu shared by the kitchen</p><div class="meal-grid" style="margin-top:12px">${pillarLive.meals.length ? pillarLive.meals.map(m => `<div class="meal-card"><small>${esc(m.meal)}</small><b>${esc(m.menu || 'Menu not entered')}</b><button class="text-link" data-action="meal-toggle" data-meal-id="${esc(m.id)}">${m.served ? 'Served ✓' : 'Mark served'}</button></div>`).join('') : '<div class="data-empty">No meals added for today.</div>'}</div><button class="button button-small button-quiet" style="margin-top:9px" data-action="add-meal">＋ Add meal</button></article><article class="info-card card"><h3>Children away from campus</h3><p>Expected return dates and family contact</p>${active.length ? active.map(r => `<div class="info-row"><span>${esc(r.student)} · Roll ${esc(r.roll)}</span><b>${daysOverdue(r) ? `Late ${daysOverdue(r)} day(s)` : `Back ${esc(r.expectedReturn)}`}</b><button class="text-link" data-action="return-leave" data-leave-id="${esc(r.id)}">Returned</button></div>`).join('') : '<div class="info-row"><span>No active leave records</span><b>✓</b></div>'}${liveOverdue().length ? `<div class="notification-entry overdue"><b>${liveOverdue().length} return date(s) passed</b><p>Open the notification and tap a saved phone number to call.</p><button class="button button-small button-quiet" data-action="show-notifications">Open notification</button></div>` : ''}</article></div></div>` }
 
-function liveRenderStudents() { const rows = students.filter(s => (`${s.name} ${s.roll} ${s.class} ${s.guardianName}`).toLowerCase().includes(query.toLowerCase())); const residents = students.filter(s => s.residency === 'resident').length; return `${liveTopHeading('Students <span class="hindi-inline">طلبہ</span>', 'Keep a child, paper roll number, and family contact together.', liveCan('admin', 'teacher') ? button('Add a student', 'add-student', 'button button-primary', '＋') : '')}<section class="stats-grid">${stat('Enrolled children', String(students.length), 'Active student records', '♧')}${stat('Hostel residents', String(residents), 'From residence register', '⌂', 'blue')}${stat('Girls', String(students.filter(s => s.gender === 'Girl').length), 'Student register', '♡')}${stat('Family contact saved', String(students.filter(s => s.guardianName && s.guardianPhone).length), `${students.filter(s => !s.guardianPhone).length} phone(s) still to add`, '☎', 'orange')}</section><section class="card table-card"><div class="card-header"><div><h3>Student register <span class="hindi-inline">بچوں کا رجسٹر</span></h3><p>Search by a child, guardian, or paper roll number.</p></div><div class="table-toolbar"><label class="search-box"><span>⌕</span><input id="studentsSearch" value="${esc(query)}" placeholder="Name or roll no.…" aria-label="Search students"></label><button class="select-small" data-action="export-students">Download list ↓</button></div></div>${table(liveStudentRows(rows, { guardian: true, actions: true }), { headers: ['Roll no.', 'Student name', 'Class / room', 'Parent / guardian', 'Gender', 'Stay', ''] })}<div class="table-footer"><span>${rows.length} of ${students.length} · sorted by paper roll number</span><button class="text-link" data-action="add-student">＋ Add a student</button></div></section><p class="page-subtitle" style="margin-top:10px">Keep family contact details current so staff can reach the right person.</p>` }
+function liveRenderStudents() {
+  const rows = students.filter(s =>
+    (`${s.name} ${s.roll} ${s.class} ${s.guardianName}`)
+      .toLowerCase()
+      .includes(query.toLowerCase())
+  );
+
+  const residents = students.filter(
+    s => s.residency === 'resident'
+  ).length;
+
+  return `
+        ${liveTopHeading(
+    'Students <span class="hindi-inline">طلبہ</span>',
+    'Keep a child, paper roll number, and family contact together.',
+    liveCan('admin', 'teacher')
+      ? button(
+        'Add a student',
+        'add-student',
+        'button button-primary',
+        '＋'
+      )
+      : ''
+  )}
+
+        <section class="stats-grid">
+            ${stat(
+    'Enrolled children',
+    String(students.length),
+    'Active student records',
+    '♧'
+  )}
+
+            ${stat(
+    'Hostel residents',
+    String(residents),
+    'From residence register',
+    '⌂',
+    'blue'
+  )}
+
+            ${stat(
+    'Girls',
+    String(students.filter(s => s.gender === 'Girl').length),
+    'Student register',
+    '♡'
+  )}
+
+        </section>
+
+        <section class="card table-card">
+            <div class="card-header">
+                <div>
+                    <h3>
+                        Student register
+                        <span class="hindi-inline">بچوں کا رجسٹر</span>
+                    </h3>
+                    <p>
+                        Search by a child, guardian, or paper roll number.
+                    </p>
+                </div>
+
+                <div class="table-toolbar">
+                    <label class="search-box">
+                        <span>⌕</span>
+                        <input
+                            id="studentsSearch"
+                            value="${esc(query)}"
+                            placeholder="Name or roll no.…"
+                            aria-label="Search students"
+                        >
+                    </label>
+
+                    <button
+                        class="select-small"
+                        data-action="export-students"
+                    >
+                        Download list ↓
+                    </button>
+                </div>
+            </div>
+
+            ${table(
+    liveStudentRows(rows, {
+      guardian: true,
+      actions: true
+    }),
+    {
+      headers: [
+        'Roll no.',
+        'Student name',
+        'Class / room',
+        'Parent / guardian',
+        'Gender',
+        'Stay',
+        ''
+      ]
+    }
+  )}
+
+            <div class="table-footer">
+                <span>
+                    ${rows.length} of ${students.length} · sorted by paper roll number
+                </span>
+
+                <button
+                    class="text-link"
+                    data-action="add-student"
+                >
+                    ＋ Add a student
+                </button>
+            </div>
+        </section>
+
+        <p class="page-subtitle" style="margin-top:10px">
+            Keep family contact details current so staff can reach the right person.
+        </p>
+    `;
+}
 
 function liveRenderHealth() { if (!liveCan('admin', 'health_worker')) return `${liveTopHeading('Student health <span class="hindi-inline">طلبہ کی صحت</span>', 'Private care notes are available only to the admin and health worker.')}<div class="summary-banner"><span class="banner-mark" style="background:#fae4e2;color:#b75b53">＋</span><div><b>Private student health register</b><small>Only authorised health staff and campus admins can open these notes.</small></div>${button('Add a health visit', 'add-health', 'button button-primary', '＋')}</div><section class="stats-grid">${stat('Follow-ups due', String(pillarLive.healthRecords.filter(h => h.follow_up_date && h.follow_up_date <= liveToday()).length), 'Review with the health worker', '＋', 'red')}${stat('Visits recorded this month', String(pillarLive.healthRecords.filter(h => String(h.recorded_at).slice(0, 7) === liveToday().slice(0, 7)).length), 'Saved care notes', '✓')}${stat('Students with records', String(new Set(pillarLive.healthRecords.map(h => h.student_id)).size), 'Confidential to authorised staff', '♡', 'blue')}${stat('Follow-up dates set', String(pillarLive.healthRecords.filter(h => h.follow_up_date).length), 'Check the next visit date', '☾', 'orange')}</section><section class="card table-card"><div class="card-header"><div><h3>Recent health visits <span class="hindi-inline">صحت کی تازہ معلومات</span></h3><p>Private notes · sorted newest first</p></div><label class="search-box"><span>⌕</span><input id="healthSearch" value="${esc(query)}" placeholder="Find a child…" aria-label="Find a child"></label></div>${pillarLive.healthRecords.length ? table(pillarLive.healthRecords.filter(h => (`${h.student?.full_name || ''} ${h.concern}`).toLowerCase().includes(query.toLowerCase())).map(h => `<tr><td>${new Date(h.recorded_at).toLocaleDateString('en-IN')}</td><td>${esc(h.student?.roll_number || '—')}</td><td>${esc(h.student?.full_name || 'Student')}</td><td>${esc(h.concern)}</td><td>${esc(h.care_given || '—')}</td><td>${h.follow_up_date ? esc(h.follow_up_date) : '—'}</td></tr>`).join(''), { headers: ['Date', 'Roll', 'Student', 'Concern', 'Care given', 'Follow-up'] }) : '<div class="data-empty"><b>No health records saved</b>Add a health visit to begin the private register.</div>'}</section>` }
 
