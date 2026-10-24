@@ -2212,3 +2212,17 @@ button {
         display: none
     }
 }
+.leave-summary-card {
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    width: 100%;
+}
+
+.leave-summary-card:hover,
+.leave-summary-card:focus-visible {
+    border-color: #8ab69a;
+    box-shadow: 0 8px 24px rgba(49, 111, 76, .12);
+    outline: none;
+}

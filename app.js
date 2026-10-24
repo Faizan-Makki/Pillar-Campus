@@ -210,6 +210,11 @@ function showToast(msg = 'Saved successfully') {
 
 function go(page) {
     if (!pages[page]) return;
+    if (typeof PillarAccessUtils !== 'undefined' && !PillarAccessUtils.canAccessPage(page, typeof pillarLive !== 'undefined' ? pillarLive.member?.role : null)) {
+        showToast('This page is available to campus admins only.');
+        return
+    }
+    if (page === 'students' && typeof pillarLive !== 'undefined') pillarLive.studentLeaveList = false;
     currentPage = page;
     query = '';
     render();

@@ -47,9 +47,9 @@ test('platform owner checks are separate from institute membership and hidden be
 test('institute data and dynamic names come from the authenticated membership', () => {
   assert.match(schema, /using \(id = public\.my_campus_id\(\)\)/i);
   assert.match(schema, /campus_id = public\.my_campus_id\(\)/i);
-  assert.match(backend, /from\('campus_members'\)[\s\S]*?eq\('user_id',session\.user\.id\)/i);
-  assert.match(backend, /from\('campuses'\)[\s\S]*?eq\('id',pillarLive\.member\.campus_id\)/i);
-  assert.match(backend, /textContent=campus\.name/i);
+  assert.match(backend, /from\('campus_members'\)[\s\S]*?eq\('user_id',\s*session\.user\.id\)/i);
+  assert.match(backend, /from\('campuses'\)[\s\S]*?eq\('id',\s*pillarLive\.member\.campus_id\)/i);
+  assert.match(backend, /textContent\s*=\s*campus\.name/i);
 });
 
 test('Admin RLS and backend checks replace Director authorization', () => {
