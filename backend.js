@@ -262,7 +262,182 @@ function liveRender() { if (!pillarLive.session || !pillarLive.member) return; i
 function liveRoleLabel(role) { return (role || 'staff').replaceAll('_', ' ').replace(/\b\w/g, x => x.toUpperCase()) }
 function liveTop() { document.getElementById('dateLabel').textContent = liveDateLabel(); document.getElementById('breadcrumbs').innerHTML = `<span>${esc(pillarLive.campus?.name || 'Pillar Campus')}</span><i>/</i><b id="crumbCurrent">${esc(pages[currentPage]?.[0] || 'Overview')}</b>` }
 
-function liveTranslate(label) { const hi = { 'Overview': 'आज का हाल', 'Attendance': 'हाज़िरी', 'Hostel & meals': 'छात्रावास और भोजन', 'Students': 'बच्चे', 'Question papers': 'प्रश्न पत्र', 'Student health': 'बच्चों की सेहत', 'Kitchen stock': 'रसोई का सामान', 'Reports & insights': 'रिपोर्ट और जानकारी', 'Our staff': 'हमारे कर्मचारी', 'Fees & family support': 'फीस और परिवार', 'Add a student': 'छात्र जोड़ें', 'Add leave / outing': 'छुट्टी / बाहर जाने का रिकॉर्ड', 'Add a health visit': 'सेहत का रिकॉर्ड जोड़ें', 'Add an item': 'सामान जोड़ें', 'Record delivery': 'सामान की आवक दर्ज करें', 'Record a payment': 'भुगतान दर्ज करें', 'Refresh': 'ताज़ा करें', 'Download register': 'रजिस्टर डाउनलोड करें', 'Save attendance': 'हाज़िरी सहेजें', 'Save check-in': 'उपस्थिति सहेजें', 'Mark all shown as present': 'सभी को उपस्थित करें', 'Mark all as present': 'सभी को उपस्थित करें', 'Day student': 'दिन में पढ़ने वाला छात्र', 'Hostel resident': 'छात्रावास में रहने वाला छात्र', 'Student full name': 'छात्र का पूरा नाम', 'Paper roll number': 'रजिस्टर का रोल नंबर', 'Class and section': 'कक्षा और सेक्शन', 'Parent or guardian name': 'माता-पिता या अभिभावक का नाम', 'Parent or guardian phone': 'माता-पिता या अभिभावक का फोन', 'Expected return date': 'वापसी की तारीख', 'Approved by staff or admin': 'मंजूरी देने वाला कर्मचारी या निदेशक', 'Reason for leave': 'छुट्टी का कारण', 'What happened?': 'क्या हुआ?', 'Care given / next step': 'दी गई देखभाल / अगला कदम', 'Follow-up date': 'फिर से जांच की तारीख', 'Additional note': 'अतिरिक्त जानकारी', 'Food item': 'खाने का सामान', 'Current quantity': 'अभी की मात्रा', 'Minimum quantity': 'कम से कम मात्रा', 'Quantity received': 'मिली हुई मात्रा', 'Quantity change (use minus for use)': 'मात्रा में बदलाव (इस्तेमाल पर माइनस)', 'Supplier or shop': 'दुकान या सप्लायर', 'Amount paid (₹)': 'दिया गया पैसा (₹)', 'Payment method': 'भुगतान का तरीका', 'What is it for?': 'किस लिए भुगतान?', 'Meal': 'खाना', 'Menu': 'खाने का मेन्यू', 'Unit': 'माप', 'Room / hostel': 'कमरा / छात्रावास', 'Gender': 'लिंग', 'Stay type': 'रहने का प्रकार', 'View': 'देखें', 'Update stock': 'सामान बदलें', 'In stock': 'मौजूद सामान', 'Buy soon': 'जल्द खरीदें' }; const ur = { 'Overview': 'جائزہ', 'Attendance': 'حاضری', 'Hostel & meals': 'ہاسٹل اور کھانا', 'Students': 'طلبہ', 'Question papers': 'سوالیہ پرچے', 'Student health': 'طلبہ کی صحت', 'Kitchen stock': 'باورچی خانے کا ذخیرہ', 'Reports & insights': 'رپورٹس اور معلومات', 'Our staff': 'ہمارا عملہ', 'Fees & family support': 'فیس اور خاندان', 'Add a student': 'طالب علم شامل کریں', 'Add leave / outing': 'چھٹی یا باہر جانے کا اندراج', 'Add a health visit': 'صحت کا اندراج شامل کریں', 'Add an item': 'سامان شامل کریں', 'Record delivery': 'سامان کی آمد درج کریں', 'Record a payment': 'ادائیگی درج کریں', 'Refresh': 'تازہ کریں', 'Download register': 'رجسٹر ڈاؤن لوڈ کریں', 'Save attendance': 'حاضری محفوظ کریں', 'Save check-in': 'حاضری محفوظ کریں', 'Mark all shown as present': 'سب کو حاضر کریں', 'Day student': 'دن میں پڑھنے والا طالب علم', 'Hostel resident': 'ہاسٹل میں رہنے والا طالب علم', 'Student full name': 'طالب علم کا پورا نام', 'Paper roll number': 'رجسٹر کا رول نمبر', 'Class and section': 'جماعت اور سیکشن', 'Parent or guardian name': 'والدین یا سرپرست کا نام', 'Parent or guardian phone': 'والدین یا سرپرست کا فون', 'Expected return date': 'واپسی کی تاریخ', 'Approved by staff or admin': 'منظوری دینے والا عملہ یا ڈائریکٹر', 'Reason for leave': 'چھٹی کی وجہ', 'What happened?': 'کیا ہوا؟', 'Care given / next step': 'دی گئی دیکھ بھال / اگلا قدم', 'Follow-up date': 'دوبارہ جانچ کی تاریخ', 'Additional note': 'اضافی نوٹ', 'Food item': 'کھانے کا سامان', 'Current quantity': 'موجودہ مقدار', 'Minimum quantity': 'کم از کم مقدار', 'Quantity received': 'موصولہ مقدار', 'Quantity change (use minus for use)': 'مقدار میں تبدیلی (استعمال پر منفی)', 'Supplier or shop': 'دکان یا سپلائر', 'Amount paid (₹)': 'ادا کی گئی رقم (₹)', 'Payment method': 'ادائیگی کا طریقہ', 'What is it for?': 'ادائیگی کس لیے ہے؟', 'Meal': 'کھانا', 'Menu': 'کھانے کا مینو', 'Unit': 'اکائی', 'Room / hostel': 'کمرہ / ہاسٹل', 'Gender': 'جنس', 'Stay type': 'قیام کی قسم', 'View': 'دیکھیں', 'Update stock': 'ذخیرہ تبدیل کریں', 'In stock': 'موجود ذخیرہ', 'Buy soon': 'جلد خریدیں' }; const extra = { hi: { 'Roll no.': 'रोल नंबर', 'Student name': 'छात्र का नाम', 'Here?': 'हाज़िर?', 'Class / room': 'कक्षा / कमरा', 'Today': 'आज', 'Marked at': 'समय', 'Parent / guardian': 'माता-पिता / अभिभावक', 'Stay': 'रहने की जगह', 'Present': 'उपस्थित', 'Absent': 'अनुपस्थित', 'On leave': 'छुट्टी पर', 'Morning': 'सुबह', 'Evening': 'शाम', 'Breakfast': 'नाश्ता', 'Lunch': 'दोपहर का खाना', 'Dinner': 'रात का खाना', 'Date': 'तारीख', 'Concern': 'परेशानी', 'Care given': 'दी गई देखभाल', 'Follow-up': 'फिर से जांच', 'Amount': 'राशि', 'For': 'किसलिए', 'Phone': 'फोन', 'Role': 'जिम्मेदारी' }, ur: { 'Roll no.': 'رول نمبر', 'Student name': 'طالب علم کا نام', 'Here?': 'حاضر؟', 'Class / room': 'جماعت / کمرہ', 'Today': 'آج', 'Marked at': 'وقت', 'Parent / guardian': 'والدین / سرپرست', 'Stay': 'قیام', 'Present': 'حاضر', 'Absent': 'غیر حاضر', 'On leave': 'چھٹی پر', 'Morning': 'صبح', 'Evening': 'شام', 'Breakfast': 'ناشتہ', 'Lunch': 'دوپہر کا کھانا', 'Dinner': 'رات کا کھانا', 'Date': 'تاریخ', 'Concern': 'مسئلہ', 'Care given': 'دی گئی دیکھ بھال', 'Follow-up': 'دوبارہ جانچ', 'Amount': 'رقم', 'For': 'کس لیے', 'Phone': 'فون', 'Role': 'ذمہ داری' } }; return ({ hi, ur }[currentLanguage]?.[label]) || extra[currentLanguage]?.[label] || label }
+function liveTranslate(label) {
+  const hi = {
+    'Overview': 'आज का हाल',
+    'Attendance': 'हाज़िरी',
+    'Hostel & meals': 'छात्रावास और भोजन',
+    'Students': 'बच्चे',
+    'Question papers': 'प्रश्न पत्र',
+    'Student health': 'बच्चों की सेहत',
+    'Kitchen stock': 'रसोई का सामान',
+    'Reports & insights': 'रिपोर्ट और जानकारी',
+    'Our staff': 'हमारे कर्मचारी',
+    'Fees & family support': 'फीस और परिवार',
+    'Add a student': 'छात्र जोड़ें',
+    'Add leave / outing': 'छुट्टी / बाहर जाने का रिकॉर्ड',
+    'Add a health visit': 'सेहत का रिकॉर्ड जोड़ें',
+    'Add an item': 'सामान जोड़ें',
+    'Record delivery': 'सामान की आवक दर्ज करें',
+    'Record a payment': 'भुगतान दर्ज करें',
+    'Refresh': 'ताज़ा करें',
+    'Download register': 'रजिस्टर डाउनलोड करें',
+    'Save attendance': 'हाज़िरी सहेजें',
+    'Save check-in': 'उपस्थिति सहेजें',
+    'Mark all shown as present': 'सभी को उपस्थित करें',
+    'Mark all as present': 'सभी को उपस्थित करें',
+    'Day student': 'दिन में पढ़ने वाला छात्र',
+    'Hostel resident': 'छात्रावास में रहने वाला छात्र',
+    'Student full name': 'छात्र का पूरा नाम',
+    'Paper roll number': 'रजिस्टर का रोल नंबर',
+    'Class and section': 'कक्षा और सेक्शन',
+    'Parent or guardian name': 'माता-पिता या अभिभावक का नाम',
+    'Parent or guardian phone': 'माता-पिता या अभिभावक का फोन',
+    'Expected return date': 'वापसी की तारीख',
+    'Approved by staff or admin': 'मंजूरी देने वाला कर्मचारी या निदेशक',
+    'Reason for leave': 'छुट्टी का कारण',
+    'What happened?': 'क्या हुआ?',
+    'Care given / next step': 'दी गई देखभाल / अगला कदम',
+    'Follow-up date': 'फिर से जांच की तारीख',
+    'Additional note': 'अतिरिक्त जानकारी',
+    'Food item': 'खाने का सामान',
+    'Current quantity': 'अभी की मात्रा',
+    'Minimum quantity': 'कम से कम मात्रा',
+    'Quantity received': 'मिली हुई मात्रा',
+    'Quantity change (use minus for use)': 'मात्रा में बदलाव (इस्तेमाल पर माइनस)',
+    'Supplier or shop': 'दुकान या सप्लायर',
+    'Amount paid (₹)': 'दिया गया पैसा (₹)',
+    'Payment method': 'भुगतान का तरीका',
+    'What is it for?': 'किस लिए भुगतान?',
+    'Meal': 'खाना',
+    'Menu': 'खाने का मेन्यू',
+    'Unit': 'माप',
+    'Room / hostel': 'कमरा / छात्रावास',
+    'Gender': 'लिंग',
+    'Stay type': 'रहने का प्रकार',
+    'View': 'देखें',
+    'Update stock': 'सामान बदलें',
+    'In stock': 'मौजूद सामान',
+    'Buy soon': 'जल्द खरीदें'
+  };
+
+  const ur = {
+    'Overview': 'جائزہ',
+    'Attendance': 'حاضری',
+    'Hostel & meals': 'ہاسٹل اور کھانا',
+    'Students': 'طلبہ',
+    'Question papers': 'سوالیہ پرچے',
+    'Student health': 'طلبہ کی صحت',
+    'Kitchen stock': 'باورچی خانے کا ذخیرہ',
+    'Reports & insights': 'رپورٹس اور معلومات',
+    'Our staff': 'ہمارا عملہ',
+    'Fees & family support': 'فیس اور خاندان',
+    'Add a student': 'طالب علم شامل کریں',
+    'Add leave / outing': 'چھٹی یا باہر جانے کا اندراج',
+    'Add a health visit': 'صحت کا اندراج شامل کریں',
+    'Add an item': 'سامان شامل کریں',
+    'Record delivery': 'سامان کی آمد درج کریں',
+    'Record a payment': 'ادائیگی درج کریں',
+    'Refresh': 'تازہ کریں',
+    'Download register': 'رجسٹر ڈاؤن لوڈ کریں',
+    'Save attendance': 'حاضری محفوظ کریں',
+    'Save check-in': 'حاضری محفوظ کریں',
+    'Mark all shown as present': 'سب کو حاضر کریں',
+    'Day student': 'دن میں پڑھنے والا طالب علم',
+    'Hostel resident': 'ہاسٹل میں رہنے والا طالب علم',
+    'Student full name': 'طالب علم کا پورا نام',
+    'Paper roll number': 'رجسٹر کا رول نمبر',
+    'Class and section': 'جماعت اور سیکشن',
+    'Parent or guardian name': 'والدین یا سرپرست کا نام',
+    'Parent or guardian phone': 'والدین یا سرپرست کا فون',
+    'Expected return date': 'واپسی کی تاریخ',
+    'Approved by staff or admin': 'منظوری دینے والا عملہ یا ڈائریکٹر',
+    'Reason for leave': 'چھٹی کی وجہ',
+    'What happened?': 'کیا ہوا؟',
+    'Care given / next step': 'دی گئی دیکھ بھال / اگلا قدم',
+    'Follow-up date': 'دوبارہ جانچ کی تاریخ',
+    'Additional note': 'اضافی نوٹ',
+    'Food item': 'کھانے کا سامان',
+    'Current quantity': 'موجودہ مقدار',
+    'Minimum quantity': 'کم از کم مقدار',
+    'Quantity received': 'موصولہ مقدار',
+    'Quantity change (use minus for use)': 'مقدار میں تبدیلی (استعمال پر منفی)',
+    'Supplier or shop': 'دکان یا سپلائر',
+    'Amount paid (₹)': 'ادا کی گئی رقم (₹)',
+    'Payment method': 'ادائیگی کا طریقہ',
+    'What is it for?': 'ادائیگی کس لیے ہے؟',
+    'Meal': 'کھانا',
+    'Menu': 'کھانے کا مینو',
+    'Unit': 'اکائی',
+    'Room / hostel': 'کمرہ / ہاسٹل',
+    'Gender': 'جنس',
+    'Stay type': 'قیام کی قسم',
+    'View': 'دیکھیں',
+    'Update stock': 'ذخیرہ تبدیل کریں',
+    'In stock': 'موجود ذخیرہ',
+    'Buy soon': 'جلد خریدیں'
+  };
+
+  const extra = {
+    hi: {
+      'Roll no.': 'रोल नंबर',
+      'Student name': 'छात्र का नाम',
+      'Here?': 'हाज़िर?',
+      'Class / room': 'कक्षा / कमरा',
+      'Today': 'आज',
+      'Marked at': 'समय',
+      'Parent / guardian': 'माता-पिता / अभिभावक',
+      'Stay': 'रहने की जगह',
+      'Present': 'उपस्थित',
+      'Absent': 'अनुपस्थित',
+      'On leave': 'छुट्टी पर',
+      'Morning': 'सुबह',
+      'Evening': 'शाम',
+      'Breakfast': 'नाश्ता',
+      'Lunch': 'दोपहर का खाना',
+      'Dinner': 'रात का खाना',
+      'Date': 'तारीख',
+      'Concern': 'परेशानी',
+      'Care given': 'दी गई देखभाल',
+      'Follow-up': 'फिर से जांच',
+      'Amount': 'राशि',
+      'For': 'किसलिए',
+      'Phone': 'फोन',
+      'Role': 'जिम्मेदारी'
+    },
+
+    ur: {
+      'Roll no.': 'رول نمبر',
+      'Student name': 'طالب علم کا نام',
+      'Here?': 'حاضر؟',
+      'Class / room': 'جماعت / کمرہ',
+      'Today': 'آج',
+      'Marked at': 'وقت',
+      'Parent / guardian': 'والدین / سرپرست',
+      'Stay': 'قیام',
+      'Present': 'حاضر',
+      'Absent': 'غیر حاضر',
+      'On leave': 'چھٹی پر',
+      'Morning': 'صبح',
+      'Evening': 'شام',
+      'Breakfast': 'ناشتہ',
+      'Lunch': 'دوپہر کا کھانا',
+      'Dinner': 'رات کا کھانا',
+      'Date': 'تاریخ',
+      'Concern': 'مسئلہ',
+      'Care given': 'دی گئی دیکھ بھال',
+      'Follow-up': 'دوبارہ جانچ',
+      'Amount': 'رقم',
+      'For': 'کس لیے',
+      'Phone': 'فون',
+      'Role': 'ذمہ داری'
+    }
+  };
+
+  return ({ hi, ur }[currentLanguage]?.[label])
+    || extra[currentLanguage]?.[label]
+    || label
+}
 function liveField(label, name, type = 'text', options = []) { const id = `live-${name}`; if (type === 'select') return `<div class="field"><label for="${id}">${esc(liveTranslate(label))}</label><select id="${id}" data-live-field="${esc(name)}">${options.map(o => `<option value="${esc(o.value)}">${esc(liveTranslate(o.label))}</option>`).join('')}</select></div>`; return `<div class="field"><label for="${id}">${esc(liveTranslate(label))}</label><input id="${id}" data-live-field="${esc(name)}" type="${type}" ${type === 'number' ? 'step="0.01"' : ''} ${type === 'tel' ? 'inputmode="tel"' : ''}></div>` }
 function liveStudentOptions() { return students.map(s => ({ value: s.id, label: `${s.roll} · ${s.name}` })) }
 function liveModal(kind, itemId = '') {
@@ -294,8 +469,58 @@ function liveStudentDetail(studentId) {
 }
 function liveForm() { return Object.fromEntries([...document.querySelectorAll('[data-live-field]')].map(el => [el.dataset.liveField, el.value.trim()])) }
 function liveCloseModal() { document.getElementById('modalBackdrop').hidden = true; const save = document.getElementById('modalSave'); delete save.dataset.liveKind; delete save.dataset.leaveId; save.hidden = false; save.textContent = 'Save record'; const cancel = document.getElementById('modalCancel'); cancel.textContent = 'Cancel'; delete cancel.dataset.studentDetail }
-function liveSetAttendance(roll, status) { const s = students.find(x => x.roll === roll); if (!s) return; if (leaveRecords.some(r => r.roll === roll && liveActiveLeaveToday(r))) { showToast('This child is recorded as away. Mark the child returned first.'); return } s.status = status; s.time = 'Just now'; pillarLive.pendingAttendance.add(s.id); render() }
-async function liveSaveAttendance() { const rows = students.filter(s => s.status !== 'Not marked'); if (!rows.length) { showToast('Mark children before saving attendance'); return } const payload = rows.map(s => ({ campus_id: pillarLive.member.campus_id, student_id: s.id, attendance_date: liveToday(), shift: attendanceShift, status: s.status, marked_by: pillarLive.member.id, marked_at: new Date().toISOString() })); const { error } = await pillarLive.client.from('attendance').upsert(payload, { onConflict: 'student_id,attendance_date,shift' }); if (error) { showToast(`Attendance was not saved: ${error.message}`); return } pillarLive.pendingAttendance.clear(); await liveRefreshData(); render(); showToast(`${rows.length} attendance marks saved`) }
+function liveSetAttendance(roll, status) {
+  const s = students.find(x => x.roll === roll);
+  if (!s) return;
+
+  if (leaveRecords.some(r => r.roll === roll && liveActiveLeaveToday(r))) {
+    showToast('Records ke hisab se Yeh bacchi ghar gayi hai, to iska attendence nhi ho sakta hai');
+    return;
+  }
+
+  s.status = status;
+  s.time = 'Just now';
+
+  pillarLive.pendingAttendance.add(s.id);
+
+  render();
+}
+async function liveSaveAttendance() {
+  const rows = students.filter(s => s.status !== 'Not marked');
+
+  if (!rows.length) {
+    showToast('Mark children before saving attendance');
+    return;
+  }
+
+  const payload = rows.map(s => ({
+    campus_id: pillarLive.member.campus_id,
+    student_id: s.id,
+    attendance_date: liveToday(),
+    shift: attendanceShift,
+    status: s.status,
+    marked_by: pillarLive.member.id,
+    marked_at: new Date().toISOString()
+  }));
+
+  const { error } = await pillarLive.client
+    .from('attendance')
+    .upsert(payload, {
+      onConflict: 'student_id,attendance_date,shift'
+    });
+
+  if (error) {
+    showToast(`Attendance was not saved: ${error.message}`);
+    return;
+  }
+
+  pillarLive.pendingAttendance.clear();
+
+  await liveRefreshData();
+  render();
+
+  showToast(`${rows.length} attendance marks saved`);
+}
 async function liveSaveForm() {
   const buttonEl = document.getElementById('modalSave'), kind = buttonEl.dataset.liveKind, form = liveForm(); if (!kind) return; const client = pillarLive.client, base = { campus_id: pillarLive.member.campus_id }; try {
     buttonEl.disabled = true;
@@ -332,7 +557,7 @@ async function liveAction(event) {
   if (action === 'back-student-leaves') { event.preventDefault(); event.stopImmediatePropagation(); pillarLive.studentLeaveList = false; render(); return }
   if (action === 'add-student-leave') { event.preventDefault(); event.stopImmediatePropagation(); if (!liveCan('admin', 'warden')) { showToast('Your campus role cannot manage leave records'); return } liveModal('leave'); setTimeout(() => { const student = document.getElementById('live-student_id'); if (student) student.value = btn.dataset.studentId }, 30); return }
   if (action === 'edit-student-leave') { event.preventDefault(); event.stopImmediatePropagation(); if (!liveCan('admin', 'warden')) { showToast('Your campus role cannot manage leave records'); return } liveModal('leave', btn.dataset.leaveId); return }
-  if (action === 'delete-student-leave') { event.preventDefault(); event.stopImmediatePropagation(); if (!liveCan('admin', 'warden')) { showToast('Your campus role cannot manage leave records'); return } if (!window.confirm('Delete this leave record? This cannot be undone.')) return; const record = leaveRecords.find(r => r.id === btn.dataset.leaveId); if (!record) { showToast('Leave record was not found. Refresh and try again.'); return } const { error } = await pillarLive.client.from('leave_records').delete().eq('id', record.id).eq('campus_id', pillarLive.member.campus_id); if (error) { showToast(`Could not delete leave: ${error.message}`); return } await liveRefreshData(); liveStudentDetail(record.studentId); showToast('Leave record deleted') ; return }
+  if (action === 'delete-student-leave') { event.preventDefault(); event.stopImmediatePropagation(); if (!liveCan('admin', 'warden')) { showToast('Your campus role cannot manage leave records'); return } if (!window.confirm('Delete this leave record? This cannot be undone.')) return; const record = leaveRecords.find(r => r.id === btn.dataset.leaveId); if (!record) { showToast('Leave record was not found. Refresh and try again.'); return } const { error } = await pillarLive.client.from('leave_records').delete().eq('id', record.id).eq('campus_id', pillarLive.member.campus_id); if (error) { showToast(`Could not delete leave: ${error.message}`); return } await liveRefreshData(); liveStudentDetail(record.studentId); showToast('Leave record deleted'); return }
   if (action === 'stock-update') { event.preventDefault(); event.stopImmediatePropagation(); if (!liveCan('admin')) { showToast('Kitchen stock is available to campus admins only.'); return } liveModal('stock-update', btn.dataset.item); return }
   if (action === 'toggle-attendance') { event.preventDefault(); event.stopImmediatePropagation(); const s = students.find(x => x.roll === btn.dataset.roll); if (s) liveSetAttendance(s.roll, s.status === 'Present' ? 'Absent' : 'Present'); return }
   if (action === 'mark-all') { event.preventDefault(); event.stopImmediatePropagation(); students.filter(s => !leaveRecords.some(r => r.roll === s.roll && liveActiveLeaveToday(r)) && (attendanceFilter === 'All students' || attendanceFilter === 'Girls' && s.gender === 'Girl' || attendanceFilter === 'Boys' && s.gender === 'Boy' || attendanceFilter === 'Hostel residents' && s.residency === 'resident')).forEach(s => { s.status = 'Present'; s.time = 'Just now'; pillarLive.pendingAttendance.add(s.id) }); render(); return }
